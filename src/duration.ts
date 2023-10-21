@@ -118,7 +118,7 @@ function cookDurationUnit(raw:string):DurationUnit {
     throw new Error(`String ${raw} is not a valid duration unit`);
 }
 
-interface DurationValues {
+export interface DurationValues {
     days?: number,
     hours?: number,
     minutes?: number,

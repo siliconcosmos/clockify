@@ -1,4 +1,4 @@
-
+import { Duration, DurationValues } from "./duration";
 
 export class Clock {
     private config: ClockConfig;
@@ -34,16 +34,16 @@ export class Clock {
 
 export interface ClockConfig {
     mode?: CMode,
-    interval?: number,
-    target?: number,
-    initial?: number
+    interval?: Duration,
+    target?: Duration,
+    initial?: Duration
 }
 
 const DEFAULT_CONFIG: ClockConfig = {
     mode: 'stopwatch',
-    interval: 500,
-    target: 0,
-    initial: 0
+    interval: Duration.of(500, 'milliseconds'),
+    target: Duration.parse("0 seconds"),
+    initial: Duration.parse("0 seconds")
 }
 
 type CState = 'initial'|'started'|'stopped'|'paused';
