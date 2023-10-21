@@ -1,9 +1,8 @@
 
 
 export class Clock {
-    private hi: string = 'Hello World';
     private config: ClockConfig;
-    private state: ClockState = 'initial';
+    private state: CState = 'initial';
 
     constructor(configuration?:ClockConfig) {
         this.config = { ...DEFAULT_CONFIG, ...configuration };
@@ -34,7 +33,7 @@ export class Clock {
 }
 
 export interface ClockConfig {
-    mode?: 'stopwatch'|'countdown'
+    mode?: CMode,
     interval?: number,
     target?: number,
     initial?: number
@@ -47,4 +46,5 @@ const DEFAULT_CONFIG: ClockConfig = {
     initial: 0
 }
 
-type ClockState = 'initial'|'started'|'stopped'|'paused';
+type CState = 'initial'|'started'|'stopped'|'paused';
+type CMode = 'stopwatch'|'countdown';
