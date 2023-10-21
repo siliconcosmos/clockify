@@ -1,4 +1,4 @@
+import { Clock as cClock } from './clock';
 
-export class Clock {
-    private hi: string = 'Hello World';
-}
+
+export const Clock = cClock;
