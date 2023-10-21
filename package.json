@@ -1,0 +1,29 @@
+{
+  "name": "clockify",
+  "version": "1.0.0",
+  "description": "A typescript based timer utility",
+  "main": "dist/clockify.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@types/node": "^20.8.7",
+    "typescript": "^5.2.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/siliconcosmos/clockify.git"
+  },
+  "keywords": [
+    "timer",
+    "clock",
+    "countdown",
+    "duration"
+  ],
+  "author": "Silicon Cosmos",
+  "license": "MPL-2.0",
+  "bugs": {
+    "url": "https://github.com/siliconcosmos/clockify/issues"
+  },
+  "homepage": "https://github.com/siliconcosmos/clockify#readme"
+}
