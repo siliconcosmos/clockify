@@ -36,6 +36,28 @@ export class Duration {
 
         throw new Error(`Unable to construct a duration for count of ${count} and unit of ${unit}`);
     }
+
+    // Return the duration value converted to the target unit
+    public in(unit:DurationUnit):number {
+        switch (unit) {
+            case 'days':
+                return this.valueInMillis / MILLIS_PER_DAY;
+            case 'hours':
+                return this.valueInMillis / MILLIS_PER_HOUR;
+            case 'minutes':
+                return this.valueInMillis / MILLIS_PER_MINUTE;
+            case 'seconds':
+                return this.valueInMillis / MILLIS_PER_SECOND;
+            case 'milliseconds':
+                return this.valueInMillis;
+        }
+        throw new Error(`Unit of ${unit} is not supported.`);
+    }
+
+    // Return the truncated integer value of the duration converted to the target unit
+    public as(unit:DurationUnit) {
+        return Math.trunc(this.in(unit));
+    }
     
     private flattenValues(values: DurationValues) {
         let totalMillis = 0;
@@ -56,7 +78,6 @@ export class Duration {
         }
         return totalMillis;
     }
-
 }
 
 export type DurationUnit =  'days' | 'hours' | 'minutes' | 'seconds' | 'milliseconds';
