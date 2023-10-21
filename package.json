@@ -4,11 +4,15 @@
   "description": "A typescript based timer utility",
   "main": "dist/clockify.js",
   "scripts": {
+    "build": "tsc --importHelpers",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "@types/node": "^20.8.7",
     "typescript": "^5.2.2"
+  },
+  "devDependencies": {
+    "tslib": "^2.6.2"
   },
   "repository": {
     "type": "git",
