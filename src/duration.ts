@@ -41,7 +41,11 @@ export class Duration {
         throw new Error(`Unable to construct a duration for count of ${count} and unit of ${unit}`);
     }
 
-    // Return a Duration parsed from a space separated string in the format "<count> <unit>" e.g. 30 seconds, 5 minutes, 2 days
+    /**
+     * Return a Duration parsed from a space separated string in the format "<count> <unit>" e.g. 30 seconds, 5 minutes, 2 days
+     * @param parseable string to parse
+     * @returns Duration
+     */
     public static parse(parseable:string):Duration {
         try {
             const groups:string[] = Strings.unwrapMatch(parseable, DURATION_REGEX);
@@ -58,7 +62,11 @@ export class Duration {
         }
     }
 
-    // Return the duration value converted to the target unit
+    /**
+     * Return the duration value converted to the target unit
+     * @param unit The target duration unit
+     * @returns The numerical value of this duration in the specified unit
+     */
     public in(unit:DurationUnit):number {
         switch (unit) {
             case 'days':
@@ -75,7 +83,11 @@ export class Duration {
         throw new Error(`Unit of ${unit} is not supported.`);
     }
 
-    // Return the truncated integer value of the duration converted to the target unit
+    /**
+     * Converts this duration to an integer of the target unit. Remainder values will be truncated.
+     * @param unit The target duration unit
+     * @returns The truncated integer value of the duration converted to the target unit
+     */
     public as(unit:DurationUnit) {
         return Math.trunc(this.in(unit));
     }
