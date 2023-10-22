@@ -33,9 +33,9 @@ export class Clock {
         if (this.phase === 'stopped') {            
             this.resetState();
         }
-
+        this.lastPollMs = performance.now();
         this.intervalId = setInterval(
-            this.update, 
+            () => this.update(), 
             this.config.interval!.in('milliseconds')
         );
         this.update();
@@ -65,7 +65,12 @@ export class Clock {
         const elapsedMs:number = currentPollMs - this.lastPollMs;
         const newTimeMs = this.currentTime.in('milliseconds') + (elapsedMs * this.directionMultiplier);
 
+        // console.log(`last poll:`, this.lastPollMs);
+        // console.log(`multi: ${this.directionMultiplier} elapsedMs: ${elapsedMs} additive: ${(elapsedMs * this.directionMultiplier)}`);
+        // console.log(`currtime: ${this.currentTime.in('seconds')} newtimeMs:`, newTimeMs);
+
         this.currentTime = Duration.of(newTimeMs, 'milliseconds');
+        this.lastPollMs = currentPollMs;
     }
 
     private resetState() {

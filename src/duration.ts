@@ -49,7 +49,7 @@ export class Duration {
     public static parse(parseable:string):Duration {
         try {
             const groups:string[] = Strings.unwrapMatch(parseable, DURATION_REGEX);
-            if (!groups || groups.length !== 2) {
+            if (!groups || groups.length !== 3) {
                 throw new Error(`String could not be split into count and unit`);
             }
 
@@ -107,7 +107,7 @@ export class Duration {
             totalMillis += values.seconds * MILLIS_PER_SECOND;
         }
         if (values.millis) {
-            totalMillis += values.millis;
+            totalMillis += Math.trunc(values.millis);
         }
         return totalMillis;
     }
