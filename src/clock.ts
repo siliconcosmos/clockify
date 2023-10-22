@@ -2,9 +2,11 @@ import { Duration } from "./duration";
 
 export class Clock {
     private intervalId:NodeJS.Timeout|number;
-    private config: ClockConfig;
-    private phase: ClockPhase;
-    private currentTime: Duration;
+    private config: ClockConfig = DEFAULT_CONFIG;
+    private phase: ClockPhase = 'initialized';
+    private directionMultiplier: number = 1;
+    private currentTime: Duration = Duration.of(0, 'milliseconds');
+    private lastPollMs:number = performance.now();
 
     public get state():ClockState {
         return { 
@@ -15,9 +17,7 @@ export class Clock {
 
     constructor(configuration?:ClockParams) {
         this.intervalId = -1;
-        this.config = { ...DEFAULT_CONFIG, ...configuration };
-        this.currentTime = this.config.initial;
-        this.phase = 'initialized';
+        this.configure({ ...DEFAULT_CONFIG, ...configuration });
     }
 
     public configure(configuration:ClockParams) {
@@ -25,6 +25,7 @@ export class Clock {
             throw new Error(`Cannot configure a clock that is ${this.phase}.`);
         }
         this.config = { ...DEFAULT_CONFIG, ...configuration };
+        this.directionMultiplier = (this.config.mode === 'countdown') ? -1 : 1;
         this.resetState();
     }
 
@@ -60,7 +61,11 @@ export class Clock {
     }
 
     private update() {
+        const currentPollMs:number = performance.now();
+        const elapsedMs:number = currentPollMs - this.lastPollMs;
+        const newTimeMs = this.currentTime.in('milliseconds') + (elapsedMs * this.directionMultiplier);
 
+        this.currentTime = Duration.of(newTimeMs, 'milliseconds');
     }
 
     private resetState() {
