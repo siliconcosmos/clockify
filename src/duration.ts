@@ -14,35 +14,32 @@ export class Duration {
     constructor(values:DurationValues) {
         this.valueInMillis = this.flattenValues(values);
     }
-
+    
+    /**
+     * Return a Duration parsed from a space separated string in the format "{{count}} {{unit}}" e.g. 30 seconds, 5 minutes, 2 days
+     * @param count the number of units the duration should represent
+     * @param unit the time unit to create this duration from e.g. 'days' | 'hours' | 'minutes' | 'seconds' | 'milliseconds'
+     * @returns Duration
+     */
     public static of(count:number, unit:DurationUnit):Duration {
-        let result: Duration|null = null;
         switch (unit) {
             case 'days':
-                result = new Duration({ days: count });
-                break;
+                return new Duration({ days: count });
             case 'hours':
-                result = new Duration({ hours: count });
-                break;
+                return new Duration({ hours: count });
             case 'minutes':
-                result = new Duration({ minutes: count });
-                break;
+                return new Duration({ minutes: count });
             case 'seconds':
-                result = new Duration({ seconds: count });
-                break;
+                return new Duration({ seconds: count });
             case 'milliseconds':
-                result = new Duration({ millis: count });
-        }
-
-        if (result) {
-            return result;
+                return new Duration({ millis: count });
         }
 
         throw new Error(`Unable to construct a duration for count of ${count} and unit of ${unit}`);
     }
 
     /**
-     * Return a Duration parsed from a space separated string in the format "<count> <unit>" e.g. 30 seconds, 5 minutes, 2 days
+    * Return a Duration parsed from a space separated string in the format "{{count}} {{unit}}" e.g. 30 seconds, 5 minutes, 2 days
      * @param parseable string to parse
      * @returns Duration
      */
