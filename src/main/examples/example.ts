@@ -48,7 +48,7 @@ c.events.on('finished', (state:ClockState) => {
     console.log(state)
     console.log(state.time.in('seconds'))
     console.log(state.time.as('milliseconds'))
-    c.start();
+    // c.start();
 });
 // c.configure({ mode: 'stopwatch' });
 c.start();

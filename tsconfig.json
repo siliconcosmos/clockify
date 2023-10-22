@@ -5,6 +5,7 @@
         "outDir": "./dist",
         "forceConsistentCasingInFileNames": true,
         "strict": true,
+        "removeComments": false,
         "esModuleInterop": true,
         "noImplicitAny": true,
         "noImplicitOverride": true,
