@@ -24,20 +24,31 @@ c.configure({
 });
 c.events.on('started', (state:ClockState) => {
     console.log(`STARTED }}}}}}}}}}`)
+    console.log(state)
     console.log(state.time.in('seconds'))
     console.log(state.time.as('milliseconds'))
     console.log(`{{{{{{{{{ Started`)
 });
 c.events.on('updated', (state:ClockState) => {
     console.log(`UPDATED >>>>>>>>>>`)
+    console.log(state)
     console.log(state.time.in('seconds'))
     console.log(state.time.as('milliseconds'))
     console.log(`<<<<<<<<<<<<< UPDATED`)
 });
-c.events.on('finished', (state:ClockState) => {
-    console.log('FINISHED');
+
+c.events.on('stopped', (state:ClockState) => {
+    console.log('STOPPED ::::::::::');
+    console.log(state)
     console.log(state.time.in('seconds'))
     console.log(state.time.as('milliseconds'))
+});
+c.events.on('finished', (state:ClockState) => {
+    console.log('FINISHED');
+    console.log(state)
+    console.log(state.time.in('seconds'))
+    console.log(state.time.as('milliseconds'))
+    c.start();
 });
 // c.configure({ mode: 'stopwatch' });
 c.start();
