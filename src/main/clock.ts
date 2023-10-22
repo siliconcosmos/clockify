@@ -34,7 +34,7 @@ export class Clock {
     }
 
     public start(): void {
-        if (this.phase === 'stopped') {
+        if (this.phase === 'stopped' || this.phase === 'finished') {
             this.resetState();
         }
         
@@ -74,6 +74,7 @@ export class Clock {
 
         if (this.isFinished()) {
             this.stop();
+            this.phase = 'finished';
             this.events.emit('finished', this.state);
             return;
         }
@@ -129,7 +130,7 @@ const DEFAULT_CONFIG: ClockConfig = {
     initial: Duration.parse("0 seconds")
 }
 
-type ClockPhase = 'initialized'|'running'|'stopped'|'paused';
+type ClockPhase = 'initialized'|'running'|'stopped'|'paused'|'finished';
 type ClockMode = 'stopwatch'|'countdown';
 
 export interface ClockState {
