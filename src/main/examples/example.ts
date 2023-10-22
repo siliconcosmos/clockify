@@ -1,4 +1,4 @@
-import { Clock, ClockState, Duration } from '../clockify';
+import { Clock, ClockState, Duration } from '../clockify.js';
 
 let c = new Clock();
 console.log(c.state); 

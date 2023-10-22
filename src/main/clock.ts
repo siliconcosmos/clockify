@@ -1,5 +1,5 @@
-import { Duration } from "./duration";
-import { ClockEventObserver } from "./event-observer";
+import { Duration } from "./duration.js";
+import { ClockEventObserver } from "./event-observer.js";
 
 export class Clock {
     private intervalId:NodeJS.Timeout|number;

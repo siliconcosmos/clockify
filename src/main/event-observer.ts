@@ -1,5 +1,5 @@
 import { Subject, Subscription } from "rxjs";
-import { ClockState } from "./clock";
+import { ClockState } from "./clock.js";
 
 export class ClockEventObserver {
 

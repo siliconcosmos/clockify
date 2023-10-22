@@ -1,4 +1,4 @@
-import { Strings } from './utils';
+import { Strings } from './utils.js';
 
 const MILLIS_PER_SECOND: number = 1000;
 const MILLIS_PER_MINUTE: number = 60 * MILLIS_PER_SECOND;

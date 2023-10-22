@@ -1,3 +1,3 @@
 
-export * from './clock';
-export * from './duration';
+export * from './clock.js';
+export * from './duration.js';
