@@ -64,6 +64,13 @@ export class Clock {
         this.events.emit('paused', this.state);
     }
 
+    public destroy() {
+        this.events.completeAll();
+        this.stop();
+        this.configure(DEFAULT_CONFIG); 
+        // TODO: should this actually disable the clock completely? i.e. break all further usage? or maybe the name should just be "revert" or something
+    }
+
     private update() {
         const currentPollMs:number = performance.now();        
         const elapsedMs:number = currentPollMs - this.lastPollMs;

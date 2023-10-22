@@ -18,7 +18,7 @@ let d2 = Duration.parse("5 minutes").in('seconds');
 // c = new Clock({ mode: 'countdown', initial: Duration.of(1, 'minutes') });
 c.configure({ 
     mode: 'countdown',
-    initial: Duration.of(10, 'seconds'), 
+    initial: Duration.of(5, 'seconds'), 
     target: Duration.of(1, 'seconds'),    
     interval: Duration.of(500, 'milliseconds')
 });
@@ -49,6 +49,9 @@ c.events.on('finished', (state:ClockState) => {
     console.log(state.time.in('seconds'))
     console.log(state.time.as('milliseconds'))
     // c.start();
+    c.destroy();
+    c.start();
+    console.log(c.state)
 });
 // c.configure({ mode: 'stopwatch' });
 c.start();

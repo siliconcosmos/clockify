@@ -39,6 +39,14 @@ export class ClockEventObserver {
         }
     }
 
+    public completeAll() {
+        this.updatedEvent.complete();
+        this.startedEvent.complete();
+        this.pausedEvent.complete();
+        this.stoppedEvent.complete();
+        this.finishedEvent.complete();
+    }
+
 }
 
 type EventType = 'updated'|'started'|'stopped'|'finished'|'paused';
