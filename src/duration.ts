@@ -88,6 +88,30 @@ export class Duration {
     public as(unit:DurationUnit) {
         return Math.trunc(this.in(unit));
     }
+
+    /**
+     * @param other Duration
+     * @param orEqual optional
+     * @returns boolean
+     */    
+    public greaterThan(other:Duration, orEqual?:boolean): boolean {
+        if (orEqual) {
+            return this.valueInMillis >= other.in('milliseconds');    
+        }
+        return this.valueInMillis > other.in('milliseconds');
+    }
+
+    /**
+     * @param other Duration
+     * @param orEqual optional
+     * @returns boolean
+     */
+    public lessThan(other:Duration, orEqual?:boolean): boolean {
+        if (orEqual) {
+            return this.valueInMillis <= other.in('milliseconds');
+        }
+        return this.valueInMillis < other.in('milliseconds');
+    }
     
     private flattenValues(values: DurationValues) {
         let totalMillis = 0;

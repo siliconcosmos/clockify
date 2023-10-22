@@ -19,17 +19,23 @@ console.log(d.as('minutes'));
 let d2 = Duration.parse("5 minutes").in('seconds');
 
 // c = new Clock({ mode: 'countdown', initial: Duration.of(1, 'minutes') });
-c.configure({ mode: 'countdown', initial: Duration.of(1, 'minutes') });
+c.configure({ mode: 'countdown', initial: Duration.of(20, 'seconds') });
+// c.configure({ mode: 'stopwatch' });
 c.start();
 
 setTimeout(() => {
-    c.pause();
+    // c.pause();
     console.log(c.state)
+    // c.configure({mode:'stopwatch'})
 }, 5000);
 setTimeout(() => {
     c.start();
     console.log(c.state)
 }, 10000);
+setTimeout(() => {
+    // c.start();
+    console.log(c.state)
+}, 20002);
 
 
 console.log("hello world");

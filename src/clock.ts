@@ -65,12 +65,24 @@ export class Clock {
         const elapsedMs:number = currentPollMs - this.lastPollMs;
         const newTimeMs = this.currentTime.in('milliseconds') + (elapsedMs * this.directionMultiplier);
 
+        if (this.isFinished()) {
+            this.stop();
+        }
+
         // console.log(`last poll:`, this.lastPollMs);
         // console.log(`multi: ${this.directionMultiplier} elapsedMs: ${elapsedMs} additive: ${(elapsedMs * this.directionMultiplier)}`);
         // console.log(`currtime: ${this.currentTime.in('seconds')} newtimeMs:`, newTimeMs);
 
         this.currentTime = Duration.of(newTimeMs, 'milliseconds');
         this.lastPollMs = currentPollMs;
+    }
+
+    private isFinished():boolean {
+        if (this.config.mode === 'countdown') {
+            return this.config.target.greaterThan(this.currentTime, true);
+        } else {
+            return this.config.target.lessThan(this.currentTime, true);
+        }
     }
 
     private resetState() {
