@@ -2,7 +2,7 @@ import { Duration } from "./duration.js";
 import { ClockEventObserver } from "./event-observer.js";
 
 export class Clock {
-    private intervalId:NodeJS.Timeout|number;
+    private intervalId?: ReturnType<typeof setTimeout>;
     private config: ClockConfig = DEFAULT_CONFIG;
     private phase: ClockPhase = 'initialized';
     private directionMultiplier: number = 1;
@@ -19,7 +19,7 @@ export class Clock {
     }
 
     constructor(configuration?:ClockParams) {
-        this.intervalId = -1;
+        this.intervalId = undefined;
         this.configure({ ...DEFAULT_CONFIG, ...configuration });
         this.events = new ClockEventObserver();         
     }
