@@ -1,8 +1,4 @@
-import { ClockState } from '../clock';
-import { Clock } from '../clockify';
-import { Duration } from '../duration'
-// import { Clock } from '../../dist/clock';
-// import { Clock } from '../../dist/clockify';
+import { Clock, ClockState, Duration } from '../clockify';
 
 let c = new Clock();
 console.log(c.state); 

@@ -8,7 +8,6 @@ export class Clock {
     private directionMultiplier: number = 1;
     private currentTime: Duration = Duration.of(0, 'milliseconds');
     private lastPollMs:number = performance.now();
-    private lastUpdateMs:number = performance.now();
 
     public events:ClockEventObserver = new ClockEventObserver(); 
 
@@ -44,7 +43,6 @@ export class Clock {
             this.config.interval!.in('milliseconds')
         );
         this.lastPollMs = performance.now();
-        this.lastUpdateMs = performance.now();
         // this.update(); //TODO: This causes instantaneous update notification, however ZERO time passes before this next up. More specifically, real time passed, but the 
         this.phase = 'running';
         this.events.emit('started', this.state);

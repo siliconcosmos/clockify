@@ -1,4 +1,3 @@
-import { Clock as cClock } from './clock';
 
-
-export const Clock = cClock;
+export * from './clock';
+export * from './duration';
