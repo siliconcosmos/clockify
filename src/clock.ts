@@ -1,3 +1,4 @@
+import { Subject, Subscription } from "rxjs";
 import { Duration } from "./duration";
 
 export class Clock {
@@ -7,6 +8,9 @@ export class Clock {
     private directionMultiplier: number = 1;
     private currentTime: Duration = Duration.of(0, 'milliseconds');
     private lastPollMs:number = performance.now();
+    private lastUpdateMs:number = performance.now();
+
+    public events:ClockEventObserver = new ClockEventObserver(); 
 
     public get state():ClockState {
         return { 
@@ -18,6 +22,7 @@ export class Clock {
     constructor(configuration?:ClockParams) {
         this.intervalId = -1;
         this.configure({ ...DEFAULT_CONFIG, ...configuration });
+        this.events = new ClockEventObserver();         
     }
 
     public configure(configuration:ClockParams) {
@@ -29,17 +34,20 @@ export class Clock {
         this.resetState();
     }
 
-    public start():void {
-        if (this.phase === 'stopped') {            
+    public start(): void {
+        if (this.phase === 'stopped') {
             this.resetState();
         }
-        this.lastPollMs = performance.now();
+        
         this.intervalId = setInterval(
-            () => this.update(), 
+            () => this.update(),
             this.config.interval!.in('milliseconds')
         );
-        this.update();
+        this.lastPollMs = performance.now();
+        this.lastUpdateMs = performance.now();
+        // this.update(); //TODO: This causes instantaneous update notification, however ZERO time passes before this next up. More specifically, real time passed, but the 
         this.phase = 'running';
+        this.events.emit('started', this.state);
     }
 
     public stop():void {
@@ -47,6 +55,7 @@ export class Clock {
             clearInterval(this.intervalId);
         }
         this.phase = 'stopped';
+        this.events.emit('stopped', this.state);
     }
 
     public pause():void {
@@ -54,34 +63,30 @@ export class Clock {
             clearInterval(this.intervalId);
         }
         this.phase = 'paused';
-    }
-
-    public read():string {
-        return "";
+        this.events.emit('paused', this.state);
     }
 
     private update() {
-        const currentPollMs:number = performance.now();
+        const currentPollMs:number = performance.now();        
         const elapsedMs:number = currentPollMs - this.lastPollMs;
         const newTimeMs = this.currentTime.in('milliseconds') + (elapsedMs * this.directionMultiplier);
+        
+        this.currentTime = Duration.of(newTimeMs, 'milliseconds');
+        this.lastPollMs = currentPollMs;
 
         if (this.isFinished()) {
             this.stop();
+            this.events.emit('finished', this.state);
+            return;
         }
-
-        // console.log(`last poll:`, this.lastPollMs);
-        // console.log(`multi: ${this.directionMultiplier} elapsedMs: ${elapsedMs} additive: ${(elapsedMs * this.directionMultiplier)}`);
-        // console.log(`currtime: ${this.currentTime.in('seconds')} newtimeMs:`, newTimeMs);
-
-        this.currentTime = Duration.of(newTimeMs, 'milliseconds');
-        this.lastPollMs = currentPollMs;
+        this.events.emit('updated', this.state);
     }
 
     private isFinished():boolean {
         if (this.config.mode === 'countdown') {
-            return this.config.target.greaterThan(this.currentTime, true);
+            return this.config.target.greaterThan(this.currentTime);
         } else {
-            return this.config.target.lessThan(this.currentTime, true);
+            return this.config.target.lessThan(this.currentTime);
         }
     }
 
@@ -96,9 +101,25 @@ export class Clock {
 }
 
 export interface ClockParams {
+    /**
+     * The mode the clock should run in. Defaults to 'stopwatch'.
+     * 
+     * 'stopwatch' - clock will count forwards through time. If target is 0, the clock will run until stopped. 
+     * 
+     * 'countdown' - clock will count backwards through time. If initial is 0 and target is 0, the clock will stop instantly. 
+     */
     mode?: ClockMode;
+    /**
+     * The frequency of the update loop. Defaults to 500ms. Values of zero or less will cause updates as fast as possible (not recommended).
+     */
     interval?: Duration;
+    /**
+     * The target value for the clock. This is where counting will finish. Default: 0s
+     */
     target?: Duration;
+    /**
+     * The initial value on the clock. This is where counting will start from. Default: 0s
+     */
     initial?: Duration;
 }
 
@@ -117,3 +138,44 @@ export interface ClockState {
     readonly time: Duration;
     readonly phase: ClockPhase;
 }
+
+class ClockEventObserver {
+
+    updatedEvent:Subject<ClockState> = new Subject<ClockState>;
+    startedEvent:Subject<ClockState> = new Subject<ClockState>;
+    pausedEvent:Subject<ClockState> = new Subject<ClockState>;
+    stoppedEvent:Subject<ClockState> = new Subject<ClockState>;
+    finishedEvent:Subject<ClockState> = new Subject<ClockState>;
+
+    public on(event:EventType, listener:(value:any) => void):Subscription {
+        switch (event) {
+            case 'updated':
+                return this.updatedEvent.subscribe((v)=> listener(v));
+            case 'started':
+                return this.startedEvent.subscribe((v)=> listener(v));
+            case 'stopped':
+                return this.stoppedEvent.subscribe((v)=> listener(v));
+            case 'finished':
+                return this.finishedEvent.subscribe((v)=> listener(v));
+            case 'paused':
+                return this.pausedEvent.subscribe((v)=> listener(v));
+        }
+    }
+
+    public emit(event:EventType, value:ClockState) {
+        switch (event) {
+            case 'updated':
+                return this.updatedEvent.next(value);
+            case 'started':
+                return this.startedEvent.next(value);
+            case 'stopped':
+                return this.stoppedEvent.next(value);
+            case 'finished':
+                return this.finishedEvent.next(value);
+            case 'paused':
+                return this.pausedEvent.next(value);
+        }
+    }
+}
+
+type EventType = 'updated'|'started'|'stopped'|'finished'|'paused';
