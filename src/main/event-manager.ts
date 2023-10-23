@@ -1,7 +1,13 @@
 import { Subject, Subscription } from "rxjs";
 import { ClockState } from "./clock.js";
 
-export interface ClockEventSubscriber {    
+export interface ClockEventSubscriber {
+    /**
+     * Add a subscriber function for the supplied event type. Uses RxJS internally.
+     * @param type EventType to subscribe to: 'updated'|'started'|'stopped'|'finished'|'paused'
+     * @param subscriber A subscriber callback function accepting any value. Will be called when the supplied event is published.
+     * @returns An RxJS Subscription
+     */
     subscribe(type:EventType, subscriber:(value:any) => void):Subscription;
 }
 export interface ClockEventPublisher {
@@ -10,11 +16,11 @@ export interface ClockEventPublisher {
 
 export class ClockEventManager implements ClockEventSubscriber, ClockEventPublisher {
 
-    updatedEvent:Subject<ClockState> = new Subject<ClockState>;
-    startedEvent:Subject<ClockState> = new Subject<ClockState>;
-    pausedEvent:Subject<ClockState> = new Subject<ClockState>;
-    stoppedEvent:Subject<ClockState> = new Subject<ClockState>;
-    finishedEvent:Subject<ClockState> = new Subject<ClockState>;
+    private updatedEvent:Subject<ClockState> = new Subject<ClockState>;
+    private startedEvent:Subject<ClockState> = new Subject<ClockState>;
+    private pausedEvent:Subject<ClockState> = new Subject<ClockState>;
+    private stoppedEvent:Subject<ClockState> = new Subject<ClockState>;
+    private finishedEvent:Subject<ClockState> = new Subject<ClockState>;
 
     public subscribe(type:EventType, subscriber:(value:any) => void):Subscription {
         switch (type) {
