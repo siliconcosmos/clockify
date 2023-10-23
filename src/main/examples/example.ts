@@ -67,6 +67,11 @@ c.events.subscribe('finished', (state:ClockState) => {
 });
 // c.configure({ mode: 'stopwatch' });
 c.start();
+c.pause();
+c.pause();
+c.start();
+// c.pause();
+
 
 // setTimeout(() => {
 //     // c.pause();

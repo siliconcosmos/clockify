@@ -28,7 +28,7 @@ export class Clock {
     }
 
     public configure(configuration:ClockParams) {
-        if (this.isInActivePhase()) {
+        if (this.isInLivePhase()) {
             throw new Error(`Cannot configure a clock that is ${this.phase}.`);
         }
         this.config = { ...DEFAULT_CONFIG, ...configuration };
@@ -37,6 +37,9 @@ export class Clock {
     }
 
     public start(): void {
+        if (this.phase === 'running') {
+            return;
+        }
         if (this.isInHaltedPhase()) {
             this.resetState();
         }
@@ -51,6 +54,9 @@ export class Clock {
     }
 
     public stop():void {
+        if (this.isInHaltedPhase()) {
+            return;
+        }
         if (this.phase === 'running') {
             clearInterval(this.intervalId);
         }
@@ -59,9 +65,10 @@ export class Clock {
     }
 
     public pause():void {
-        if (this.phase === 'running') {
-            clearInterval(this.intervalId);
+        if (this.phase !== 'running') {
+            return;
         }
+        clearInterval(this.intervalId);
         this.phase = 'paused';
         this.eventManager.publish('paused', this.state);
     }
@@ -104,7 +111,7 @@ export class Clock {
         }
     }
 
-    private isInActivePhase():boolean {
+    private isInLivePhase():boolean {
         return this.phase === 'running' || this.phase === 'paused';
     }
 
