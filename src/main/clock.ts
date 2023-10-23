@@ -1,5 +1,5 @@
 import { Duration } from "./duration.js";
-import { ClockEventObserver } from "./event-observer.js";
+import { ClockEventManager, ClockEventSubscriber } from "./event-observer.js";
 
 export class Clock {
     private intervalId?: ReturnType<typeof setTimeout>;
@@ -8,8 +8,11 @@ export class Clock {
     private directionMultiplier: number = 1;
     private currentTime: Duration = Duration.of(0, 'milliseconds');
     private lastPollMs:number = performance.now();
+    private eventManager:ClockEventManager = new ClockEventManager();
 
-    public events:ClockEventObserver = new ClockEventObserver();
+    public get events():ClockEventSubscriber {
+        return this.eventManager;
+    }
 
     public get state():ClockState {
         return { 
@@ -21,7 +24,7 @@ export class Clock {
     constructor(configuration?:ClockParams) {
         this.intervalId = undefined;
         this.configure({ ...DEFAULT_CONFIG, ...configuration });
-        this.events = new ClockEventObserver();         
+        this.eventManager = new ClockEventManager();         
     }
 
     public configure(configuration:ClockParams) {
@@ -43,9 +46,8 @@ export class Clock {
             this.config.interval!.in('milliseconds')
         );
         this.lastPollMs = performance.now();
-        // this.update(); //TODO: This causes instantaneous update notification, however ZERO time passes before this next up. More specifically, real time passed, but the 
         this.phase = 'running';
-        this.events.emit('started', this.state);
+        this.eventManager.publish('started', this.state);
     }
 
     public stop():void {
@@ -53,7 +55,7 @@ export class Clock {
             clearInterval(this.intervalId);
         }
         this.phase = 'stopped';
-        this.events.emit('stopped', this.state);
+        this.eventManager.publish('stopped', this.state);
     }
 
     public pause():void {
@@ -61,7 +63,7 @@ export class Clock {
             clearInterval(this.intervalId);
         }
         this.phase = 'paused';
-        this.events.emit('paused', this.state);
+        this.eventManager.publish('paused', this.state);
     }
 
     /**
@@ -71,8 +73,8 @@ export class Clock {
      * - Configurations will be reset to defaults. 
      */
     public revert() {
-        this.events.completeAll();
-        this.events = new ClockEventObserver();
+        this.eventManager.completeAll();
+        this.eventManager = new ClockEventManager();
         this.stop();
         this.configure(DEFAULT_CONFIG);        
     }
@@ -88,10 +90,10 @@ export class Clock {
         if (this.isFinished()) {
             this.stop();
             this.phase = 'finished';
-            this.events.emit('finished', this.state);
+            this.eventManager.publish('finished', this.state);
             return;
         }
-        this.events.emit('updated', this.state);
+        this.eventManager.publish('updated', this.state);
     }
 
     private isFinished():boolean {

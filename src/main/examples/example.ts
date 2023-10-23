@@ -22,14 +22,14 @@ c.configure({
     target: Duration.of(1, 'seconds'),
     interval: Duration.of(500, 'milliseconds')
 });
-c.events.on('started', (state:ClockState) => {
+c.events.subscribe('started', (state:ClockState) => {
     console.log(`STARTED }}}}}}}}}}`)
     console.log(state)
     console.log(state.time.in('seconds'))
     console.log(state.time.as('milliseconds'))
     console.log(`{{{{{{{{{ Started`)
 });
-c.events.on('updated', (state:ClockState) => {
+c.events.subscribe('updated', (state:ClockState) => {
     console.log(`UPDATED >>>>>>>>>>`)
     console.log(state)
     console.log(state.time.in('seconds'))
@@ -37,13 +37,13 @@ c.events.on('updated', (state:ClockState) => {
     console.log(`<<<<<<<<<<<<< UPDATED`)
 });
 
-c.events.on('stopped', (state:ClockState) => {
+c.events.subscribe('stopped', (state:ClockState) => {
     console.log('STOPPED ::::::::::');
     console.log(state)
     console.log(state.time.in('seconds'))
     console.log(state.time.as('milliseconds'))
 });
-c.events.on('finished', (state:ClockState) => {
+c.events.subscribe('finished', (state:ClockState) => {
     console.log('FINISHED');
     console.log(state)
     console.log(state.time.in('seconds'))
@@ -53,7 +53,7 @@ c.events.on('finished', (state:ClockState) => {
     c.configure({initial: Duration.of(0, 'seconds'), 
     target: Duration.of(1000, 'seconds')})
 
-    c.events.on('updated', (state:ClockState) => {
+    c.events.subscribe('updated', (state:ClockState) => {
         console.log(`UPDATED >>>>>>>>>> NEW`)
         console.log(state)
         console.log(state.time.in('seconds'))

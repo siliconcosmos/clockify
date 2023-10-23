@@ -1,7 +1,14 @@
 import { Subject, Subscription } from "rxjs";
 import { ClockState } from "./clock.js";
 
-export class ClockEventObserver {
+export interface ClockEventSubscriber {    
+    subscribe(type:EventType, subscriber:(value:any) => void):Subscription;
+}
+export interface ClockEventPublisher {
+    publish(type:EventType, value:ClockState):void;
+}
+
+export class ClockEventManager implements ClockEventSubscriber, ClockEventPublisher {
 
     updatedEvent:Subject<ClockState> = new Subject<ClockState>;
     startedEvent:Subject<ClockState> = new Subject<ClockState>;
@@ -9,23 +16,23 @@ export class ClockEventObserver {
     stoppedEvent:Subject<ClockState> = new Subject<ClockState>;
     finishedEvent:Subject<ClockState> = new Subject<ClockState>;
 
-    public on(event:EventType, listener:(value:any) => void):Subscription {
-        switch (event) {
+    public subscribe(type:EventType, subscriber:(value:any) => void):Subscription {
+        switch (type) {
             case 'updated':
-                return this.updatedEvent.subscribe((v)=> listener(v));
+                return this.updatedEvent.subscribe((v)=> subscriber(v));
             case 'started':
-                return this.startedEvent.subscribe((v)=> listener(v));
+                return this.startedEvent.subscribe((v)=> subscriber(v));
             case 'stopped':
-                return this.stoppedEvent.subscribe((v)=> listener(v));
+                return this.stoppedEvent.subscribe((v)=> subscriber(v));
             case 'finished':
-                return this.finishedEvent.subscribe((v)=> listener(v));
+                return this.finishedEvent.subscribe((v)=> subscriber(v));
             case 'paused':
-                return this.pausedEvent.subscribe((v)=> listener(v));
+                return this.pausedEvent.subscribe((v)=> subscriber(v));
         }
     }
 
-    public emit(event:EventType, value:ClockState) {
-        switch (event) {
+    public publish(type:EventType, value:ClockState) {
+        switch (type) {
             case 'updated':
                 return this.updatedEvent.next(value);
             case 'started':
