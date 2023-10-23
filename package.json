@@ -24,7 +24,8 @@
     "build-tsc": "tsc --importHelpers",
     "build": "npx parcel build",
     "watch": "npx parcel watch",
-    "serve": "npx parcel serve index.html",
+    "serve": "npx parcel serve demo.html",
+    "demo": "npx parcel serve demo.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
