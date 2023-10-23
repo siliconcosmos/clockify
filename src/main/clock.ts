@@ -9,7 +9,7 @@ export class Clock {
     private currentTime: Duration = Duration.of(0, 'milliseconds');
     private lastPollMs:number = performance.now();
 
-    public events:ClockEventObserver = new ClockEventObserver(); 
+    public events:ClockEventObserver = new ClockEventObserver();
 
     public get state():ClockState {
         return { 
@@ -66,8 +66,9 @@ export class Clock {
 
     public destroy() {
         this.events.completeAll();
+        this.events = new ClockEventObserver();
         this.stop();
-        this.configure(DEFAULT_CONFIG); 
+        this.configure(DEFAULT_CONFIG);
         // TODO: should this actually disable the clock completely? i.e. break all further usage? or maybe the name should just be "revert" or something
     }
 
@@ -118,9 +119,9 @@ export interface ClockParams {
     /**
      * The mode the clock should run in. Defaults to 'stopwatch'.
      * 
-     * 'stopwatch' - clock will count forwards through time. If target is 0, the clock will run until stopped. 
+     * 'stopwatch' - clock will count forwards through time. If initial is greater than target, the clock will stop instantly.
      * 
-     * 'countdown' - clock will count backwards through time. If initial is 0 and target is 0, the clock will stop instantly. 
+     * 'countdown' - clock will count backwards through time. If initial is less than target, the clock will stop instantly. 
      */
     mode?: ClockMode;
     /**

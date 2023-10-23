@@ -39,7 +39,7 @@ export class Duration {
     }
 
     /**
-    * Return a Duration parsed from a space separated string in the format "{{count}} {{unit}}" e.g. 30 seconds, 5 minutes, 2 days
+     * Return a Duration parsed from a space separated string in the format "{{count}} {{unit}}" e.g. 30 seconds, 5 minutes, 2 days
      * @param parseable string to parse
      * @returns Duration
      */
