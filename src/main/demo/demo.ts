@@ -1,5 +1,12 @@
 import { Clock, ClockState, Duration } from '../clockify.js';
 
+
+
+console.log(Duration.of(123456789, 'milliseconds').asParts());
+console.log(Duration.of(6789, 'milliseconds').asParts());
+
+
+
 let c = new Clock();
 console.log(c.state); 
 c.start();

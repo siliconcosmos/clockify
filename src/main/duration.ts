@@ -1,9 +1,12 @@
 import { Strings } from './utils.js';
 
+const HOURS_PER_DAY = 24;
+const MINUTES_PER_HOUR = 60;
+const SECONDS_PER_MINUTE = 60;
 const MILLIS_PER_SECOND: number = 1000;
-const MILLIS_PER_MINUTE: number = 60 * MILLIS_PER_SECOND;
-const MILLIS_PER_HOUR: number = 60 * MILLIS_PER_MINUTE;
-const MILLIS_PER_DAY: number = 24 * MILLIS_PER_HOUR;
+const MILLIS_PER_MINUTE: number = SECONDS_PER_MINUTE * MILLIS_PER_SECOND;
+const MILLIS_PER_HOUR: number = MINUTES_PER_HOUR * MILLIS_PER_MINUTE;
+const MILLIS_PER_DAY: number = HOURS_PER_DAY * MILLIS_PER_HOUR;
 
 const DURATION_REGEX:RegExp = /^([0-9]+) *(days|hours|minutes|seconds|milliseconds{1}).*$/i;
 
@@ -32,7 +35,7 @@ export class Duration {
             case 'seconds':
                 return new Duration({ seconds: count });
             case 'milliseconds':
-                return new Duration({ millis: count });
+                return new Duration({ milliseconds: count });
         }
 
         throw new Error(`Unable to construct a duration for count of ${count} and unit of ${unit}`);
@@ -85,8 +88,31 @@ export class Duration {
      * @param unit The target duration unit
      * @returns The truncated integer value of the duration converted to the target unit
      */
-    public as(unit:DurationUnit) {
+    public as(unit:DurationUnit):number {
         return Math.trunc(this.in(unit));
+    }
+
+    public asParts():DurationValues {
+        const totals = this.asTotals();
+        let parts:DurationValues = {};
+
+        parts.days = totals.days;
+        parts.hours = totals.hours - (parts.days * HOURS_PER_DAY);
+        parts.minutes = totals.minutes = (parts.hours * MINUTES_PER_HOUR);
+        parts.seconds = totals.seconds - (parts.minutes * SECONDS_PER_MINUTE);
+        parts.milliseconds = totals.milliseconds - (parts.seconds * MILLIS_PER_SECOND);
+        
+        return parts;
+    }
+
+    public asTotals():DurationTotals {
+        return {
+            days: this.as('days'),
+            hours: this.as('hours'),
+            minutes: this.as('minutes'),
+            seconds: this.as('seconds'),
+            milliseconds: this.as('milliseconds')
+        };
     }
 
     /**
@@ -127,14 +153,15 @@ export class Duration {
         if (values.seconds) {
             totalMillis += values.seconds * MILLIS_PER_SECOND;
         }
-        if (values.millis) {
-            totalMillis += Math.trunc(values.millis);
+        if (values.milliseconds) {
+            totalMillis += Math.trunc(values.milliseconds);
         }
         return totalMillis;
     }
 }
 
-export type DurationUnit = 'days' | 'hours' | 'minutes' | 'seconds' | 'milliseconds';
+export type DurationUnit = keyof DurationValues;
+// export type DurationUnit = 'days' | 'hours' | 'minutes' | 'seconds' | 'milliseconds';
 function cookDurationUnit(raw:string):DurationUnit {
     switch (raw) {
         case 'days':
@@ -156,5 +183,16 @@ export interface DurationValues {
     hours?: number,
     minutes?: number,
     seconds?: number,
-    millis?: number
+    milliseconds?: number
+}
+
+/**
+ * Represents a duration as a values object where each value represents the total integer count of that unit.
+ */
+export interface DurationTotals {
+    days: number,
+    hours: number,
+    minutes: number,
+    seconds: number,
+    milliseconds: number
 }
