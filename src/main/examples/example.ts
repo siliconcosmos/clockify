@@ -49,7 +49,7 @@ c.events.on('finished', (state:ClockState) => {
     console.log(state.time.in('seconds'))
     console.log(state.time.as('milliseconds'))
 
-    c.destroy();
+    c.revert();
     c.configure({initial: Duration.of(0, 'seconds'), 
     target: Duration.of(1000, 'seconds')})
 

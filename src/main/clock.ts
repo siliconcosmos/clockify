@@ -64,12 +64,17 @@ export class Clock {
         this.events.emit('paused', this.state);
     }
 
-    public destroy() {
+    /**
+     * Revert this clock back to factory settings. Performs the following definite actions in order:
+     * - All event handlers will be unsubscribed
+     * - The clock will be stopped, if it is running. 
+     * - Configurations will be reset to defaults. 
+     */
+    public revert() {
         this.events.completeAll();
         this.events = new ClockEventObserver();
         this.stop();
-        this.configure(DEFAULT_CONFIG);
-        // TODO: should this actually disable the clock completely? i.e. break all further usage? or maybe the name should just be "revert" or something
+        this.configure(DEFAULT_CONFIG);        
     }
 
     private update() {
