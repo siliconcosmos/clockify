@@ -1,5 +1,5 @@
 import { Duration } from "./duration.js";
-import { ClockEventManager, ClockEventSubscriber } from "./event-observer.js";
+import { ClockEventManager, ClockEventSubscriber } from "./event-manager.js";
 
 export class Clock {
     private intervalId?: ReturnType<typeof setTimeout>;
