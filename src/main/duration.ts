@@ -14,8 +14,12 @@ export class Duration {
 
     private valueInMillis: number;
 
-    constructor(values:DurationValues) {
-        this.valueInMillis = this.flattenValues(values);
+    /**
+     * Construct a new duration from a parameter object representing the duration unit values. 
+     * @param params:DurationParams - See DurationValues type for valid fields.
+     */
+    constructor(params:DurationParams) {
+        this.valueInMillis = this.flattenParamsToMillis(params);
     }
     
     /**
@@ -92,19 +96,25 @@ export class Duration {
         return Math.trunc(this.in(unit));
     }
 
+    /**
+     * Represents this duration as a values object where the length of the duration is distributed across the various units from largest to smallest
+     * @returns DurationValues
+     */
     public asValues():DurationValues {
-        const totals = this.asTotals();
-        let values:DurationValues = {};
-
-        values.days = totals.days;
-        values.hours = totals.hours - (totals.days * HOURS_PER_DAY);
-        values.minutes = totals.minutes - (totals.hours * MINUTES_PER_HOUR);
-        values.seconds = totals.seconds - (totals.minutes * SECONDS_PER_MINUTE);
-        values.milliseconds = totals.milliseconds - (totals.seconds * MILLIS_PER_SECOND);
-        
-        return values;
+        const totals:DurationTotals = this.asTotals();
+        return {
+            days: totals.days,
+            hours: totals.hours - (totals.days * HOURS_PER_DAY),
+            minutes: totals.minutes - (totals.hours * MINUTES_PER_HOUR),
+            seconds: totals.seconds - (totals.minutes * SECONDS_PER_MINUTE),
+            milliseconds: totals.milliseconds - (totals.seconds * MILLIS_PER_SECOND)
+        };
     }
 
+    /**
+     * Represents this duration as a values object where each value represents the total integer size of the duration expressed as that unit.
+     * @returns DurationTotals
+     */
     public asTotals():DurationTotals {
         return {
             days: this.as('days'),
@@ -139,7 +149,7 @@ export class Duration {
         return this.valueInMillis < other.in('milliseconds');
     }
     
-    private flattenValues(values: DurationValues) {
+    private flattenParamsToMillis(values: DurationParams) {
         let totalMillis = 0;
         if (values.days) {
             totalMillis += values.days * MILLIS_PER_DAY;
@@ -159,9 +169,10 @@ export class Duration {
         return totalMillis;
     }
 }
-
+/**
+ * @type 'days' | 'hours' | 'minutes' | 'seconds' | 'milliseconds'
+ */
 export type DurationUnit = keyof DurationValues;
-// export type DurationUnit = 'days' | 'hours' | 'minutes' | 'seconds' | 'milliseconds';
 function cookDurationUnit(raw:string):DurationUnit {
     switch (raw) {
         case 'days':
@@ -178,21 +189,13 @@ function cookDurationUnit(raw:string):DurationUnit {
     throw new Error(`String ${raw} is not a valid duration unit`);
 }
 
-export interface DurationValues {
-    days?: number,
-    hours?: number,
-    minutes?: number,
-    seconds?: number,
-    milliseconds?: number
-}
-
-/**
- * Represents a duration as a values object where each value represents the total integer size of the duration expressed as that unit.
- */
-export interface DurationTotals {
+export type DurationValues = {
     days: number,
     hours: number,
     minutes: number,
     seconds: number,
     milliseconds: number
 }
+export type DurationParams = Partial<DurationValues>;
+
+type DurationTotals = Readonly<DurationValues>;

@@ -168,7 +168,7 @@ export interface ClockParams {
     initial?: Duration;
 }
 
-type ClockConfig = Required<ClockParams>
+type ClockConfig = Required<ClockParams>;
 const DEFAULT_CONFIG: ClockConfig = {
     mode: 'stopwatch',
     interval: Duration.of(500, 'milliseconds'),
