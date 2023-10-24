@@ -1,4 +1,4 @@
-import { Duration } from "./duration.js";
+import { Duration, DurationValues } from "./duration.js";
 import { ClockEventManager, ClockEventSubscriber } from "./event-manager.js";
 
 export class Clock {
@@ -126,6 +126,22 @@ export class Clock {
     private setState(state:ClockState) {
         this.phase = state.phase;
         this.currentTime = state.time;
+    }
+
+    public static clockifyDuration(duration:Duration):string {
+        const values:DurationValues = duration.asValues();
+        let parts:number[] = [];
+
+        if (values.days && values.days > 0) {
+            parts.push(values.days);
+        }
+        if (values.hours && values.hours > 0) {
+            parts.push(values.hours);
+        }
+        parts.push(values.minutes || 0);
+        parts.push(values.seconds || 0);
+
+        return parts.map((x) => String(x).padStart(2, '0')).join(':');
     }
 }
 

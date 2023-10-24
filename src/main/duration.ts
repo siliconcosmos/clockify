@@ -92,17 +92,17 @@ export class Duration {
         return Math.trunc(this.in(unit));
     }
 
-    public asParts():DurationValues {
+    public asValues():DurationValues {
         const totals = this.asTotals();
-        let parts:DurationValues = {};
+        let values:DurationValues = {};
 
-        parts.days = totals.days;
-        parts.hours = totals.hours - (parts.days * HOURS_PER_DAY);
-        parts.minutes = totals.minutes = (parts.hours * MINUTES_PER_HOUR);
-        parts.seconds = totals.seconds - (parts.minutes * SECONDS_PER_MINUTE);
-        parts.milliseconds = totals.milliseconds - (parts.seconds * MILLIS_PER_SECOND);
+        values.days = totals.days;
+        values.hours = totals.hours - (totals.days * HOURS_PER_DAY);
+        values.minutes = totals.minutes - (totals.hours * MINUTES_PER_HOUR);
+        values.seconds = totals.seconds - (totals.minutes * SECONDS_PER_MINUTE);
+        values.milliseconds = totals.milliseconds - (totals.seconds * MILLIS_PER_SECOND);
         
-        return parts;
+        return values;
     }
 
     public asTotals():DurationTotals {
@@ -187,7 +187,7 @@ export interface DurationValues {
 }
 
 /**
- * Represents a duration as a values object where each value represents the total integer count of that unit.
+ * Represents a duration as a values object where each value represents the total integer size of the duration expressed as that unit.
  */
 export interface DurationTotals {
     days: number,

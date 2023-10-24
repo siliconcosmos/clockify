@@ -2,8 +2,10 @@ import { Clock, ClockState, Duration } from '../clockify.js';
 
 
 
-console.log(Duration.of(123456789, 'milliseconds').asParts());
-console.log(Duration.of(6789, 'milliseconds').asParts());
+const testdur1 = Duration.of(12345678999, 'milliseconds');
+console.log(testdur1.asValues());
+console.log(Clock.clockifyDuration(testdur1));
+console.log(Duration.of(6789, 'milliseconds').asValues());
 
 
 
@@ -34,6 +36,7 @@ c.events.subscribe('started', (state:ClockState) => {
     console.log(state)
     console.log(state.time.in('seconds'))
     console.log(state.time.as('milliseconds'))
+    console.log(Clock.clockifyDuration(state.time))
     console.log(`{{{{{{{{{ Started`)
 });
 c.events.subscribe('updated', (state:ClockState) => {
@@ -41,6 +44,7 @@ c.events.subscribe('updated', (state:ClockState) => {
     console.log(state)
     console.log(state.time.in('seconds'))
     console.log(state.time.as('milliseconds'))
+    console.log(Clock.clockifyDuration(state.time))
     console.log(`<<<<<<<<<<<<< UPDATED`)
 });
 
@@ -97,4 +101,4 @@ c.start();
 
 // console.log("hello world");
 
-export {};
+export { };
