@@ -1,4 +1,4 @@
-import { Duration, DurationValues } from "./duration.js";
+import { Duration, DurationUnit, DurationValues } from "./duration.js";
 import { ClockEventManager, ClockEventSubscriber } from "./event-manager.js";
 
 export class Clock {
@@ -128,20 +128,20 @@ export class Clock {
         this.currentTime = state.time;
     }
 
-    public static clockifyDuration(duration:Duration):string {
+    public static clockifyDuration(duration:Duration, includeUnits:DurationUnit[] = ['minutes', 'seconds'], separator:string = ':'):string {
         const values:DurationValues = duration.asValues();
-        let parts:number[] = [];
+        let parts:(number|string)[] = [];
 
-        if (values.days && values.days > 0) {
-            parts.push(values.days);
-        }
-        if (values.hours && values.hours > 0) {
-            parts.push(values.hours);
-        }
-        parts.push(values.minutes || 0);
-        parts.push(values.seconds || 0);
+        includeUnits.forEach(unit => {
+            const currVal:number = values[unit];
+            if (unit === 'milliseconds') {
+                parts.push(String(currVal).padStart(3, '0')); 
+            } else {
+                parts.push(currVal); 
+            }
+        });
 
-        return parts.map((x) => String(x).padStart(2, '0')).join(':');
+        return parts.map((x) => String(x).padStart(2, '0')).join(separator);
     }
 }
 

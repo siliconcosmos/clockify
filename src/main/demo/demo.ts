@@ -1,11 +1,17 @@
-import { Clock, ClockState, Duration } from '../clockify.js';
+import { Clock, ClockState, Duration, DurationParams } from '../clockify.js';
 
 
 
-const testdur1 = Duration.of(12345678999, 'milliseconds');
+const testdur1 = Duration.of(123456789876, 'milliseconds');
 console.log(testdur1.asValues());
 console.log(Clock.clockifyDuration(testdur1));
-console.log(Duration.of(6789, 'milliseconds').asValues());
+console.log(Clock.clockifyDuration(testdur1, ['hours', 'minutes', 'seconds', 'milliseconds']));
+const testdur2 = Duration.of(10067, 'milliseconds');
+console.log(testdur2.asValues());
+console.log(Clock.clockifyDuration(testdur2));
+console.log(Clock.clockifyDuration(testdur2, ['minutes', 'seconds', 'milliseconds'], ';'));
+const params:DurationParams = {}
+const dur3 = new Duration(params)
 
 
 
@@ -29,7 +35,7 @@ c.configure({
     mode: 'countdown',
     initial: Duration.of(5, 'seconds'),
     target: Duration.of(1, 'seconds'),
-    interval: Duration.of(500, 'milliseconds')
+    interval: Duration.of(900, 'milliseconds')
 });
 c.events.subscribe('started', (state:ClockState) => {
     console.log(`STARTED }}}}}}}}}}`)
@@ -44,7 +50,7 @@ c.events.subscribe('updated', (state:ClockState) => {
     console.log(state)
     console.log(state.time.in('seconds'))
     console.log(state.time.as('milliseconds'))
-    console.log(Clock.clockifyDuration(state.time))
+    console.log(Clock.clockifyDuration(state.time, ['minutes', 'seconds', 'milliseconds']))
     console.log(`<<<<<<<<<<<<< UPDATED`)
 });
 
