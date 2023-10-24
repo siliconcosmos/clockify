@@ -1,4 +1,5 @@
-import { Duration, DurationUnit, DurationValues } from "./duration.js";
+import { Clockify } from "./clock-utils.js";
+import { Duration, DurationUnit } from "./duration.js";
 import { ClockEventManager, ClockEventSubscriber } from "./event-manager.js";
 
 export class Clock {
@@ -129,23 +130,11 @@ export class Clock {
     }
 
     public static clockifyDuration(duration:Duration, includeUnits:DurationUnit[] = ['minutes', 'seconds'], separator:string = ':'):string {
-        const values:DurationValues = duration.asValues();
-        let parts:(number|string)[] = [];
-
-        includeUnits.forEach(unit => {
-            const currVal:number = values[unit];
-            if (unit === 'milliseconds') {
-                parts.push(String(currVal).padStart(3, '0')); 
-            } else {
-                parts.push(currVal); 
-            }
-        });
-
-        return parts.map((x) => String(x).padStart(2, '0')).join(separator);
+        return Clockify.duration(duration, includeUnits, separator);
     }
 }
 
-export interface ClockParams {
+export type ClockParams = {
     /**
      * The mode the clock should run in. Defaults to 'stopwatch'.
      * 
@@ -179,7 +168,7 @@ const DEFAULT_CONFIG: ClockConfig = {
 type ClockPhase = 'initialized'|'running'|'stopped'|'paused'|'finished';
 type ClockMode = 'stopwatch'|'countdown';
 
-export interface ClockState {
+export type ClockState = {
     readonly time: Duration;
     readonly phase: ClockPhase;
 }
