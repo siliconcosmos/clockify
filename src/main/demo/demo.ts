@@ -11,8 +11,8 @@ console.log(Clockify.duration(testdur1, ['hours', 'minutes', 'seconds', 'millise
 console.log(Clockify.milliseconds(987654321, ['days', 'hours', 'minutes', 'seconds', 'milliseconds']));
 const testdur2 = Duration.of(10067, 'milliseconds');
 console.log(testdur2.asValues());
-console.log(Clock.clockifyDuration(testdur2));
-console.log(Clock.clockifyDuration(testdur2, ['minutes', 'seconds', 'milliseconds'], ';'));
+console.log(Clockify.duration(testdur2));
+console.log(Clockify.duration(testdur2, ['minutes', 'seconds', 'milliseconds'], ';'));
 const params:DurationParams = {}
 const dur3 = new Duration(params)
 
@@ -45,7 +45,7 @@ c.events.subscribe('started', (state:ClockState) => {
     console.log(state)
     console.log(state.time.in('seconds'))
     console.log(state.time.as('milliseconds'))
-    console.log(Clock.clockifyDuration(state.time))
+    console.log(Clockify.duration(state.time))
     console.log(`{{{{{{{{{ Started`)
 });
 c.events.subscribe('updated', (state:ClockState) => {
@@ -53,7 +53,7 @@ c.events.subscribe('updated', (state:ClockState) => {
     console.log(state)
     console.log(state.time.in('seconds'))
     console.log(state.time.as('milliseconds'))
-    console.log(Clock.clockifyDuration(state.time, ['minutes', 'seconds', 'milliseconds']))
+    console.log(Clockify.duration(state.time, ['minutes', 'seconds', 'milliseconds']))
     console.log(`<<<<<<<<<<<<< UPDATED`)
 });
 

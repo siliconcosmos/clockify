@@ -128,10 +128,6 @@ export class Clock {
         this.phase = state.phase;
         this.currentTime = state.time;
     }
-
-    public static clockifyDuration(duration:Duration, includeUnits:DurationUnit[] = ['minutes', 'seconds'], separator:string = ':'):string {
-        return Clockify.duration(duration, includeUnits, separator);
-    }
 }
 
 export type ClockParams = {
