@@ -70,7 +70,8 @@ Clockify.duration(cState.time, ['hours', 'minutes', 'seconds']);
 ```
 The units are not mandatory and would default to `['minutes', 'seconds']`. We can also clockify other things.
 ```typescript
-Clockify.durationParams({ days: 1, hours: 3, minutes: 30, seconds: 10, milliseconds: 0 }); // all params are optional
+// all Duration params are optional
+Clockify.durationParams({ days: 1, hours: 3, minutes: 30, seconds: 10, milliseconds: 0 });
 Clockify.seconds(280, [['minutes', 'seconds'], ';']); // optional separator character results in - 04;40
 Clockify.milliseconds(10000); // 00:10
 ```
