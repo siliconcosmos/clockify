@@ -20,10 +20,10 @@
       "optimize": true
     },
     "docs": {
-      "source": "src/main/demo/index.html",
+      "source": "index.html",
       "distDir": "docs",
       "publicUrl": "./",
-      "isLibrary": true,
+      "isLibrary": false,
       "context": "browser",
       "outputFormat": "global",
       "optimize": true
