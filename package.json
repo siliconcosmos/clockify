@@ -20,8 +20,9 @@
       "optimize": true
     },
     "docs": {
-      "source": "demo.html",
+      "source": "src/main/demo/index.html",
       "distDir": "docs",
+      "publicUrl": "./",
       "isLibrary": true,
       "context": "browser",
       "outputFormat": "global",
