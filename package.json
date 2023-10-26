@@ -18,6 +18,14 @@
       "context": "node",
       "outputFormat": "esmodule",
       "optimize": true
+    },
+    "docs": {
+      "source": "demo.html",
+      "distDir": "docs",
+      "isLibrary": true,
+      "context": "browser",
+      "outputFormat": "global",
+      "optimize": true
     }
   },
   "scripts": {
@@ -25,7 +33,7 @@
     "build": "npx parcel build",
     "watch": "npx parcel watch",
     "serve": "npx parcel serve demo.html",
-    "demo": "npx parcel serve demo.html",
+    "demo": "npx parcel serve demo.html --open",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
