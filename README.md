@@ -4,6 +4,21 @@ A tiny stopwatch, chronometer, and countdown timer library with millisecond prec
 See the docs for live examples of the library in action: http://clockify.siliconcosmos.com
 
 
+## Project Setup
+Build the project:
+```
+> npm run build
+# OR
+> npm run watch
+```
+
+Run a demo of the project with:
+```
+> npm run demo
+```
+This demo is equivalent to the live demo in the docs.
+
+
 ## Usage
 ### Import the Library
 ES Modules:
@@ -15,7 +30,7 @@ Require statement:
 var { Clock, Duration } = require("clockify.js");
 ```
 
-### Basic Example
+### Quickstart Example
 Setup a new clock with some basic configuration.
 ``` typescript
 let c = new Clock({ 
@@ -87,21 +102,3 @@ c.events.subscribe('updated', (state:ClockState) => {
 The library also contains typescript definitions with doc comments for editors which support hinting. 
 
 See the docs for more examples and API details: http://clockify.siliconcosmos.com
-
-
-
-## Project Setup
-Build the project with either:
-```
-> npm run build
-```
-OR
-```
-> npm run watch
-```
-
-Run a demo of the project with:
-```
-> npm run demo
-```
-This demo is equivalent to the live demo in the docs.
