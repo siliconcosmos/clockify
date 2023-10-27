@@ -4,34 +4,189 @@
 <head>
     <meta charset="utf-8">
 
-    <title>clockify.js</title>
+    <title>clockify timer</title>
+
+    <link rel="stylesheet" href="src/main/demo/skeleton-main.css">
+    <link rel="stylesheet" href="src/main/demo/skeleton-dark.css">
+
+    <style>
+        button {
+            margin: 0 2.5px;
+        }
+
+        code {
+            overflow-x: auto;
+            font-size: medium;
+        }
+    </style>
 
 </head>
 
-<body> 
-    <script src="src/main/demo/demo.ts" type="module"></script>
+<body>
 
-    <h1>Clockify.js</h1>
+    <div class="container">
+        <script src="src/main/demo/demo.ts" type="module"></script>
 
-    <p>WIP</p>
+        <h1>// clockify timer</h1>
 
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <p>WIP</p>
 
-    <div id="app">{{ message }}</div>
+        <div id="ex1">
+            <h3>// basic timer</h3>
+            
+            <div class="row">
+                <div class="six columns">
+                    This stopwatch will run for 30 seconds.
+                </div>
+                <div class="three columns">
+                    <h5>{{ statusTxt }}</h5>
+                </div>
+                <div class="three columns">
+                    <h5>{{ clockTxt }}</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="twelve columns">
+                    <pre><code>
+import { Clock, ClockState, Clockify, Duration } from '../clockify.js';
 
-    <script>
-        const { createApp, ref } = Vue
+const c = new Clock();
+let clockTxt = 'Not Started';
+let statusTxt = 'Running...';
 
-        createApp({
-            setup() {
-            const message = ref('Hello vue!')
-            return {
-                message
-            }
-            }
-        }).mount('#app')
-    </script> 
+c.configure({ 
+    target: Duration.of(30, 'seconds')
+});
+c.events.subscribe('updated', (state:ClockState) => {            
+    clockTxt = Clockify.duration(state.time); 
+});
+c.events.subscribe('finished', (state:ClockState) => {            
+    clockTxt = Clockify.duration(state.time);
+    statusTxt = "FINISHED!";
+});
 
+c.start();
+                    </code></pre>
+                </div>
+            </div>
+        </div>
+
+        <div id="ex2">
+            <h3>// interactive stopwatch</h3>
+
+            <div class="row">
+                <div class="six columns">This timer has the start(), stop(), and pause() methods tied to button click events.</div>
+                <div class="six columns">
+                    <div>
+                        <button @click="start()">Start</button>
+                        <button @click="pause()">Pause</button>
+                        <button @click="stop()">Stop</button>
+                    </div>
+                    <br>
+                    <h5>{{ phaseTxt }} - {{ clockTxt }}</h5>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="twelve columns">
+                    <pre><code>
+import { Clock, ClockState, Clockify, Duration } from '../clockify.js';
+
+const c = new Clock();
+let clockTxt = Clockify.duration(c.state.time);
+let phaseTxt = c.state.phase.toLocaleUpperCase();
+
+c.configure({ target: Duration.of(365, 'days'), interval: Duration.of(100, 'milliseconds') });
+c.events.subscribe('started', (state:ClockState) => {
+    phaseTxt = state.phase.toLocaleUpperCase();
+});
+c.events.subscribe('paused', (state:ClockState) => {
+    phaseTxt = state.phase.toLocaleUpperCase();
+});
+c.events.subscribe('stopped', (state:ClockState) => {
+    phaseTxt = state.phase.toLocaleUpperCase();
+});
+c.events.subscribe('updated', (state:ClockState) => {
+    clockTxt = Clockify.duration(state.time, ['minutes', 'seconds', 'milliseconds']);
+});
+
+function start() {
+    c.start();
+}
+function pause() {
+    c.pause();
+}
+function stop() {
+    c.stop();
+}
+                    </code></pre>
+                </div>
+            </div>
+            
+        </div>
+
+        <div id="ex3">
+            <h3>// countdown timer</h3>
+
+            <div class="row">
+                <div class="six columns">This timer is configured as a countdown timer. It will count backwards from an initial time value down to zero. The target time can also be customized if you want the countdown to finish early.</div>
+                <div class="six columns">
+                    <div>
+                        <button @click="start()">Start</button>
+                        <button @click="pause()">Pause</button>
+                        <button @click="stop()">Stop</button>
+                    </div>
+                    <br>
+                    <h5>{{ phaseTxt }} - {{ clockTxt }}</h5>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="twelve columns">
+                    <pre><code>
+import { Clock, ClockState, Clockify, Duration } from '../clockify.js';
+
+const c = new Clock();
+let clockTxt = 'Not Started';
+let phaseTxt = c.state.phase.toLocaleUpperCase();
+
+c.configure({ mode: 'countdown', initial: Duration.of(5, 'minutes'), interval: Duration.of(100, 'milliseconds') });
+
+c.events.subscribe('started', (state:ClockState) => {
+    phaseTxt = state.phase.toLocaleUpperCase();
+    clockTxt = Clockify.duration(state.time);
+});
+c.events.subscribe('paused', (state:ClockState) => {
+    phaseTxt = state.phase.toLocaleUpperCase();
+});
+c.events.subscribe('stopped', (state:ClockState) => {
+    phaseTxt = state.phase.toLocaleUpperCase();
+});
+c.events.subscribe('finished', (state:ClockState) => {
+    phaseTxt = state.phase.toLocaleUpperCase();            
+    clockTxt = Clockify.duration(state.time);
+});
+c.events.subscribe('updated', (state:ClockState) => {
+    clockTxt = Clockify.duration(state.time);
+});
+
+function start() {
+    c.start();
+}
+function pause() {
+    c.pause();
+}
+function stop() {
+    c.stop();
+}
+
+c.start();
+                    </code></pre>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </body>
 
 </html>
