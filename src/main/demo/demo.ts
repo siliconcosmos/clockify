@@ -69,7 +69,7 @@ c.events.subscribe('finished', (state:ClockState) => {
     console.log(state.time.in('seconds'))
     console.log(state.time.as('milliseconds'))
 
-    c.revert();
+    c.events.unsubscribeAll();
     c.configure({initial: Duration.of(0, 'seconds'), 
     target: Duration.of(1000, 'seconds')})
 

@@ -88,10 +88,7 @@ export class Clock {
     }
     
     /**
-     * Revert this clock back to factory settings. Performs the following definite actions in order:
-     * - All event handlers will be unsubscribed
-     * - The clock will be stopped, if it is running. 
-     * - Configurations will be reset to defaults. 
+     * Remove all subscriptions from this clock.
      */
     public unsubscribe() {
         this.eventManager.unsubscribeAll();
