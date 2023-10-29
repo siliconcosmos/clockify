@@ -9,6 +9,11 @@ export interface ClockEventSubscriber {
      * @returns An RxJS Subscription
      */
     subscribe(type:EventType, subscriber:(value:any) => void):Subscription;
+
+    /**
+     * Unsubscribe all currently bound subscribers and reinitialized the event subscriber
+     */
+    unsubscribeAll():void;
 }
 export interface ClockEventPublisher {
     publish(type:EventType, value:ClockState):void;
@@ -21,6 +26,14 @@ export class ClockEventManager implements ClockEventSubscriber, ClockEventPublis
     private pausedEvent:Subject<ClockState> = new Subject<ClockState>;
     private stoppedEvent:Subject<ClockState> = new Subject<ClockState>;
     private finishedEvent:Subject<ClockState> = new Subject<ClockState>;
+
+    private init() {
+        this.updatedEvent = new Subject<ClockState>;
+        this.startedEvent = new Subject<ClockState>;
+        this.pausedEvent = new Subject<ClockState>;
+        this.stoppedEvent = new Subject<ClockState>;
+        this.finishedEvent = new Subject<ClockState>;
+    }
 
     public subscribe(type:EventType, subscriber:(value:any) => void):Subscription {
         switch (type) {
@@ -52,12 +65,14 @@ export class ClockEventManager implements ClockEventSubscriber, ClockEventPublis
         }
     }
 
-    public completeAll() {
+    public unsubscribeAll() {
         this.updatedEvent.complete();
         this.startedEvent.complete();
         this.pausedEvent.complete();
         this.stoppedEvent.complete();
         this.finishedEvent.complete();
+
+        this.init();
     }
 
 }

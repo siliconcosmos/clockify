@@ -1,5 +1,4 @@
-import { Clockify } from "./clock-utils.js";
-import { Duration, DurationUnit } from "./duration.js";
+import { Duration } from "./duration.js";
 import { ClockEventManager, ClockEventSubscriber } from "./event-manager.js";
 
 export class Clock {
@@ -28,6 +27,10 @@ export class Clock {
         this.eventManager = new ClockEventManager();         
     }
 
+    /**
+     * Replace the current configuration on this clock.
+     * @param configuration a ClockParams object 
+     */
     public configure(configuration:ClockParams) {
         if (this.isInLivePhase()) {
             throw new Error(`Cannot configure a clock that is ${this.phase}.`);
@@ -37,6 +40,10 @@ export class Clock {
         this.resetState();
     }
 
+    /**
+     * Start the clock. If the clock was paused, it will resume from the last time. If the clock 
+     * was stopped or never started, it will start from initial time.
+     */
     public start(): void {
         if (this.phase === 'running') {
             return;
@@ -54,17 +61,9 @@ export class Clock {
         this.eventManager.publish('started', this.state);
     }
 
-    public stop():void {
-        if (this.isInHaltedPhase()) {
-            return;
-        }
-        if (this.phase === 'running') {
-            clearInterval(this.intervalId);
-        }
-        this.phase = 'stopped';
-        this.eventManager.publish('stopped', this.state);
-    }
-
+    /**
+     * Pause the clock at the current time.
+     */
     public pause():void {
         if (this.phase !== 'running') {
             return;
@@ -75,16 +74,27 @@ export class Clock {
     }
 
     /**
+     * Stop the clock at the current time. If the clock is restarted it will begin from the set initial time.
+     */
+    public stop():void {
+        if (this.isInHaltedPhase()) {
+            return;
+        }
+        if (this.phase === 'running') {
+            clearInterval(this.intervalId);
+        }
+        this.phase = 'stopped';
+        this.eventManager.publish('stopped', this.state);
+    }
+    
+    /**
      * Revert this clock back to factory settings. Performs the following definite actions in order:
      * - All event handlers will be unsubscribed
      * - The clock will be stopped, if it is running. 
      * - Configurations will be reset to defaults. 
      */
-    public revert() {
-        this.eventManager.completeAll();
-        this.eventManager = new ClockEventManager();
-        this.stop();
-        this.configure(DEFAULT_CONFIG);        
+    public unsubscribe() {
+        this.eventManager.unsubscribeAll();
     }
 
     private update() {
