@@ -20,7 +20,10 @@ export class Clock {
             phase: this.phase
         }
     }
-
+    
+    /**
+     * @param configuration a ClockParams object 
+     */
     constructor(configuration?:ClockParams) {
         this.intervalId = undefined;
         this.configure({ ...DEFAULT_CONFIG, ...configuration });
