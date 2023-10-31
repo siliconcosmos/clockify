@@ -1,6 +1,6 @@
 {
     "$schema": "https://typedoc.org/schema.json",
-    "entryPoints": ["./src/main/clockify.ts"],
+    "entryPoints": ["./src/main/docify.ts"],
     "entryPointStrategy": "resolve",
     "out": "./docs/api-reference",
     "cleanOutputDir": false,

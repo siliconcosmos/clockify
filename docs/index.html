@@ -1,58 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-
-    <title>clockify timer</title>
-
-    <link rel="stylesheet" href="index.f1cb70c3.css">
-    <link rel="stylesheet" href="index.b37a86b5.css">
-
-    <style>button {
-  margin: 0 2.5px;
-}
-
-code {
-  font-size: medium;
-  overflow-x: auto;
-}
-
-</style>
-
-</head>
-
-<body>
-
-    <div class="container">
-        <script src="index.acc8293c.js" defer=""></script>
-
-        <div>
-            <a class="button button-primary" href="./api-reference/" style="float: right">API Reference</a>
-            <h1>// clockify timer</h1>
-        </div>
-
-        <p>
-            WIP
-        </p>
-
-        <div id="ex1">
-            <h3>// basic timer</h3>
-            
-            <div class="row">
-                <div class="six columns">
-                    This stopwatch will run for 30 seconds.
-                </div>
-                <div class="three columns">
-                    <h5 class="statusTxt">{{ statusTxt }}</h5>
-                </div>
-                <div class="three columns">
-                    <h5 class="clockTxt">{{ clockTxt }}</h5>
-                </div>
-            </div>
-            <div class="row">
-                <div class="twelve columns">
-                    <pre><code>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>clockify timer</title><link rel="stylesheet" href="index.3cac95b7.css"><link rel="stylesheet" href="index.8fde8fad.css"><style>button{margin:0 2.5px}code{font-size:medium;overflow-x:auto}</style></head><body> <div class="container"> <script src="index.e48bfef7.js" type="module"></script> <div> <a class="button button-primary" style="float:right" href="./api-reference/" target="_blank">API Reference</a> <h1>// clockify timer</h1> </div> <p> WIP </p> <div id="ex1"> <h3>// basic timer</h3> <div class="row"> <div class="columns six"> This stopwatch will run for 30 seconds. </div> <div class="columns three"> <h5 class="statusTxt">{{ statusTxt }}</h5> </div> <div class="columns three"> <h5 class="clockTxt">{{ clockTxt }}</h5> </div> </div> <div class="row"> <div class="columns twelve"> <pre><code>
 import { Clock, ClockState, Clockify, Duration } from '../clockify.js';
 
 const c = new Clock();
@@ -71,30 +17,7 @@ c.events.subscribe('finished', (state:ClockState) => {
 });
 
 c.start();
-                    </code></pre>
-                </div>
-            </div>
-        </div>
-
-        <div id="ex2">
-            <h3>// interactive stopwatch</h3>
-
-            <div class="row">
-                <div class="six columns">This timer has the start(), stop(), and pause() methods tied to button click events.</div>
-                <div class="six columns">
-                    <div>
-                        <button class="startBtn" @click="start()">Start</button>
-                        <button class="pauseBtn" @click="pause()">Pause</button>
-                        <button class="stopBtn" @click="stop()">Stop</button>
-                    </div>
-                    <br>
-                    <h5><span class="phaseTxt">{{ phaseTxt }}</span> - <span class="clockTxt">{{ clockTxt }}</span></h5>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="twelve columns">
-                    <pre><code>
+                    </code></pre> </div> </div> </div> <div id="ex2"> <h3>// interactive stopwatch</h3> <div class="row"> <div class="columns six">This timer has the start(), stop(), and pause() methods tied to button click events.</div> <div class="columns six"> <div> <button class="startBtn" @click="start()">Start</button> <button class="pauseBtn" @click="pause()">Pause</button> <button class="stopBtn" @click="stop()">Stop</button> </div> <br> <h5><span class="phaseTxt">{{ phaseTxt }}</span> - <span class="clockTxt">{{ clockTxt }}</span></h5> </div> </div> <div class="row"> <div class="columns twelve"> <pre><code>
 import { Clock, ClockState, Clockify, Duration } from '../clockify.js';
 
 const c = new Clock();
@@ -124,31 +47,7 @@ function pause() {
 function stop() {
     c.stop();
 }
-                    </code></pre>
-                </div>
-            </div>
-            
-        </div>
-
-        <div id="ex3">
-            <h3>// countdown timer</h3>
-
-            <div class="row">
-                <div class="six columns">This timer is configured as a countdown timer. It will count backwards from an initial time value down to zero. The target time can also be customized if you want the countdown to finish early.</div>
-                <div class="six columns">
-                    <div>
-                        <button class="startBtn" @click="start()">Start</button>
-                        <button class="pauseBtn" @click="pause()">Pause</button>
-                        <button class="stopBtn" @click="stop()">Stop</button>
-                    </div>
-                    <br>
-                    <h5><span class="phaseTxt">{{ phaseTxt }}</span> - <span class="clockTxt">{{ clockTxt }}</span></h5>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="twelve columns">
-                    <pre><code>
+                    </code></pre> </div> </div> </div> <div id="ex3"> <h3>// countdown timer</h3> <div class="row"> <div class="columns six">This timer is configured as a countdown timer. It will count backwards from an initial time value down to zero. The target time can also be customized if you want the countdown to finish early.</div> <div class="columns six"> <div> <button class="startBtn" @click="start()">Start</button> <button class="pauseBtn" @click="pause()">Pause</button> <button class="stopBtn" @click="stop()">Stop</button> </div> <br> <h5><span class="phaseTxt">{{ phaseTxt }}</span> - <span class="clockTxt">{{ clockTxt }}</span></h5> </div> </div> <div class="row"> <div class="columns twelve"> <pre><code>
 import { Clock, ClockState, Clockify, Duration } from '../clockify.js';
 
 const c = new Clock();
@@ -186,12 +85,4 @@ function stop() {
 }
 
 c.start();
-                    </code></pre>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</body>
-
-</html>
+                    </code></pre> </div> </div> </div> </div> </body></html>

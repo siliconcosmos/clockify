@@ -49,7 +49,7 @@ pause the clock...
 ```typescript
 c.pause();
 ```
-and stop the clock.
+and stop the clock. Stopping the clock will cause it to revert to initial on next start.
 ```typescript
 c.stop();
 ```
