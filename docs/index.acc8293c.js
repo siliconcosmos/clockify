@@ -717,10 +717,8 @@ ex3();
 },{"../clockify.js":"O0rHD","jquery":"hgMhh","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"O0rHD":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "ClockEventSubscriber", ()=>(0, _eventManagerJs.ClockEventSubscriber));
-parcelHelpers.export(exports, "EventType", ()=>(0, _eventManagerJs.EventType));
-parcelHelpers.export(exports, "Clockify", ()=>(0, _clockUtilsJs.Clockify));
-var _eventManagerJs = require("./event-manager.js");
+parcelHelpers.export(exports, "Clockify", ()=>(0, _clockUtilsJs.Clockify)) // export { ClockEventSubscriber, EventType } from "./event-manager.js";
+;
 var _clockJs = require("./clock.js");
 parcelHelpers.exportAll(_clockJs, exports);
 var _durationJs = require("./duration.js");
