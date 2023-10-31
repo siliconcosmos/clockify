@@ -1,6 +1,6 @@
 {
     "$schema": "https://typedoc.org/schema.json",
-    "entryPoints": ["./src/main/docify.ts"],
+    "entryPoints": ["./src/main/docs-root.ts"],
     "entryPointStrategy": "resolve",
     "out": "./docs/reference",
     "cleanOutputDir": false,
