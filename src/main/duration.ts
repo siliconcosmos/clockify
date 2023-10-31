@@ -16,17 +16,17 @@ export class Duration {
 
     /**
      * Construct a new duration from a parameter object representing the duration unit values. 
-     * @param params:DurationParams - See DurationValues type for valid fields.
+     * @param params See DurationValues type for valid fields. All fields optional.
      */
     constructor(params:DurationParams) {
         this.valueInMillis = this.flattenParamsToMillis(params);
     }
     
     /**
-     * TODO FIXME Return a Duration parsed from a space separated string in the format "{{count}} {{unit}}" e.g. 30 seconds, 5 minutes, 2 days
-     * @param count the number of units the duration should represent
-     * @param unit the time unit to create this duration from e.g. 'days' | 'hours' | 'minutes' | 'seconds' | 'milliseconds'
-     * @returns Duration
+     * Return a Duration constructed from the provided count and DurationUnit
+     * @param count The number of units the duration should represent
+     * @param unit The time unit to create this duration from e.g. 'days' | 'hours' | 'minutes' | 'seconds' | 'milliseconds'
+     * @returns A new Duration
      */
     public static of(count:number, unit:DurationUnit):Duration {
         switch (unit) {
@@ -47,8 +47,8 @@ export class Duration {
 
     /**
      * Return a Duration parsed from a space separated string in the format "{{count}} {{unit}}" e.g. 30 seconds, 5 minutes, 2 days
-     * @param parseable string to parse
-     * @returns Duration
+     * @param parseable The string to parse
+     * @returns A new Duration
      */
     public static parse(parseable:string):Duration {
         try {
