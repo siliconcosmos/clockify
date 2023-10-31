@@ -2,7 +2,7 @@
     "$schema": "https://typedoc.org/schema.json",
     "entryPoints": ["./src/main/docify.ts"],
     "entryPointStrategy": "resolve",
-    "out": "./docs/api-reference",
+    "out": "./docs/reference",
     "cleanOutputDir": false,
     "sort": ["static-first", "kind", "source-order"],
     "includeVersion": true,

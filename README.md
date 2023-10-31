@@ -2,8 +2,6 @@
 A tiny stopwatch, chronometer, and countdown timer library with millisecond precision built in TypeScript. Support for state change events implemented via RxJs. Use it in the browser or NodeJs.
 
 See the docs for live examples of the library in action: http://clockify.siliconcosmos.com
-See the docs for live examples of the library in action: http://clockify.siliconcosmos.com/examples
-
 
 ## Project Setup
 Build the project:
