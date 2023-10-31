@@ -1,4 +1,4 @@
-import { Clock, ClockState, Clockify, Duration, DurationParams } from '../clockify.js';
+import { Clock, ClockState, Clockify, Duration } from '../clockify.js';
 // import { createApp, ref } from 'vue';
 import $ from 'jquery';
 
@@ -39,10 +39,9 @@ ex1();
 // #endregion
 
 // #region ex2
-
-const ex22 = function() {
+const ex2 = function() {
     const c = new Clock();
-    let clockTxt = Clockify.duration(c.state.time);
+    let clockTxt = Clockify.duration(c.state.time, ['minutes', 'seconds', 'milliseconds']);
     let phaseTxt = c.state.phase.toLocaleUpperCase();
 
     c.configure({ target: Duration.of(365, 'days'), interval: Duration.of(100, 'milliseconds') });
@@ -76,53 +75,66 @@ const ex22 = function() {
     onClick('#ex2 .startBtn', start);
     onClick('#ex2 .pauseBtn', pause);
     onClick('#ex2 .stopBtn', stop);
-    writeToDom('#ex2 .clockTxt', clockTxt);
     writeToDom('#ex2 .phaseTxt', phaseTxt);
+    writeToDom('#ex2 .clockTxt', clockTxt);
 }
-ex22();
-
-class Ex2 {
-    c = new Clock();
-    clockTxt = Clockify.duration(this.c.state.time);
-    phaseTxt = this.c.state.phase.toLocaleUpperCase();
-
-    constructor() {
-        this.c.configure({ target: Duration.of(365, 'days'), interval: Duration.of(100, 'milliseconds') });
-        this.c.events.subscribe('started', (state:ClockState) => {
-            this.phaseTxt = state.phase.toLocaleUpperCase();
-            writeToDom('#ex2 .phaseTxt', this.phaseTxt);
-        });
-        this.c.events.subscribe('paused', (state:ClockState) => {
-            this.phaseTxt = state.phase.toLocaleUpperCase();
-            writeToDom('#ex2 .phaseTxt', this.phaseTxt);
-        });
-        this.c.events.subscribe('stopped', (state:ClockState) => {
-            this.phaseTxt = state.phase.toLocaleUpperCase();
-            writeToDom('#ex2 .phaseTxt', this.phaseTxt);
-        });
-        this.c.events.subscribe('updated', (state:ClockState) => {
-            this.clockTxt = Clockify.duration(state.time, ['minutes', 'seconds', 'milliseconds']);
-            writeToDom('#ex2 .clockTxt', this.clockTxt);
-        });
-    }
-
-    start() {
-        this.c.start();
-    }
-    pause() {
-        this.c.pause();
-    }
-    stop() {
-        this.c.stop();
-    }
-}
-// const ex2 = new Ex2();
-// onClick('#ex2 .startBtn', ex2.start);
-// onClick('#ex2 .pauseBtn', ex2.pause);
-// onClick('#ex2 .stopBtn', ex2.stop);
-
-
+ex2();
 // #endregion
+
+// #region ex3
+const ex3 = function() {
+    const c = new Clock();
+    let clockTxt = 'Not Started';
+    let phaseTxt = c.state.phase.toLocaleUpperCase();
+
+    c.configure({ mode: 'countdown', initial: Duration.of(5, 'minutes'), interval: Duration.of(100, 'milliseconds') });
+
+    c.events.subscribe('started', (state:ClockState) => {
+        phaseTxt = state.phase.toLocaleUpperCase();
+        clockTxt = Clockify.duration(state.time);
+        writeToDom('#ex3 .phaseTxt', phaseTxt);
+        writeToDom('#ex3 .clockTxt', clockTxt);
+    });
+    c.events.subscribe('paused', (state:ClockState) => {
+        phaseTxt = state.phase.toLocaleUpperCase();
+        writeToDom('#ex3 .phaseTxt', phaseTxt);
+    });
+    c.events.subscribe('stopped', (state:ClockState) => {
+        phaseTxt = state.phase.toLocaleUpperCase();
+        writeToDom('#ex3 .phaseTxt', phaseTxt);
+    });
+    c.events.subscribe('finished', (state:ClockState) => {
+        phaseTxt = state.phase.toLocaleUpperCase();            
+        clockTxt = Clockify.duration(state.time);
+        writeToDom('#ex3 .phaseTxt', phaseTxt);
+        writeToDom('#ex3 .clockTxt', clockTxt);
+    });
+    c.events.subscribe('updated', (state:ClockState) => {
+        clockTxt = Clockify.duration(state.time);
+        writeToDom('#ex3 .clockTxt', clockTxt);
+    });
+
+    function start() {
+        c.start();
+    }
+    function pause() {
+        c.pause();
+    }
+    function stop() {
+        c.stop();
+    }
+
+    c.start();
+
+    onClick('#ex3 .startBtn', start);
+    onClick('#ex3 .pauseBtn', pause);
+    onClick('#ex3 .stopBtn', stop);
+    writeToDom('#ex3 .phaseTxt', phaseTxt);
+    writeToDom('#ex3 .clockTxt', clockTxt);
+}
+ex3();
+// #endregion
+
 // #endregion
 
 

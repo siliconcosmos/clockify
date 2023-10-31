@@ -2,7 +2,7 @@
     "$schema": "https://typedoc.org/schema.json",
     "entryPoints": ["./src/main/clockify.ts"],
     "entryPointStrategy": "resolve",
-    "out": "api-reference",
+    "out": "./docs/api-reference",
     "cleanOutputDir": false,
     "sort": ["static-first", "kind", "source-order"],
     "includeVersion": true,
