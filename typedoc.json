@@ -1,0 +1,17 @@
+{
+    "$schema": "https://typedoc.org/schema.json",
+    "navigationLinks": {
+        "Examples": "examples/index.html"
+    },
+    "entryPoints": ["./src/main/clockify.ts"],
+    "entryPointStrategy": "resolve",
+    "out": "docs",
+    "cleanOutputDir": false,
+    "sort": ["static-first", "kind", "source-order"],
+    "includeVersion": true,
+    "emit": "both",
+    "sourceLinkExternal": true,
+    "cname": "clockify.siliconcosmos.com",
+    "excludePrivate": true,
+    "excludeReferences": false
+}

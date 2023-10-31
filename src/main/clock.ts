@@ -171,8 +171,8 @@ const DEFAULT_CONFIG: ClockConfig = {
     initial: Duration.parse("0 seconds")
 }
 
-type ClockPhase = 'initialized'|'running'|'stopped'|'paused'|'finished';
-type ClockMode = 'stopwatch'|'countdown';
+export type ClockPhase = 'initialized'|'running'|'stopped'|'paused'|'finished';
+export type ClockMode = 'stopwatch'|'countdown';
 
 export type ClockState = {
     readonly time: Duration;

@@ -23,7 +23,7 @@ export class Duration {
     }
     
     /**
-     * Return a Duration parsed from a space separated string in the format "{{count}} {{unit}}" e.g. 30 seconds, 5 minutes, 2 days
+     * TODO FIXME Return a Duration parsed from a space separated string in the format "{{count}} {{unit}}" e.g. 30 seconds, 5 minutes, 2 days
      * @param count the number of units the duration should represent
      * @param unit the time unit to create this duration from e.g. 'days' | 'hours' | 'minutes' | 'seconds' | 'milliseconds'
      * @returns Duration

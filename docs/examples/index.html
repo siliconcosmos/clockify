@@ -1,0 +1,88 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>clockify timer</title><link rel="stylesheet" href="index.b2e7c554.css"><link rel="stylesheet" href="index.01d14c08.css"><style>button{margin:0 2.5px}code{font-size:medium;overflow-x:auto}</style></head><body> <div class="container"> <script src="index.e616661b.js" type="module"></script> <h1>// clockify timer</h1> <p>WIP</p> <div id="ex1"> <h3>// basic timer</h3> <div class="row"> <div class="columns six"> This stopwatch will run for 30 seconds. </div> <div class="columns three"> <h5>{{ statusTxt }}</h5> </div> <div class="columns three"> <h5>{{ clockTxt }}</h5> </div> </div> <div class="row"> <div class="columns twelve"> <pre><code>
+import { Clock, ClockState, Clockify, Duration } from '../clockify.js';
+
+const c = new Clock();
+let clockTxt = 'Not Started';
+let statusTxt = 'Running...';
+
+c.configure({ 
+    target: Duration.of(30, 'seconds')
+});
+c.events.subscribe('updated', (state:ClockState) => {            
+    clockTxt = Clockify.duration(state.time); 
+});
+c.events.subscribe('finished', (state:ClockState) => {            
+    clockTxt = Clockify.duration(state.time);
+    statusTxt = "FINISHED!";
+});
+
+c.start();
+                    </code></pre> </div> </div> </div> <div id="ex2"> <h3>// interactive stopwatch</h3> <div class="row"> <div class="columns six">This timer has the start(), stop(), and pause() methods tied to button click events.</div> <div class="columns six"> <div> <button @click="start()">Start</button> <button @click="pause()">Pause</button> <button @click="stop()">Stop</button> </div> <br> <h5>{{ phaseTxt }} - {{ clockTxt }}</h5> </div> </div> <div class="row"> <div class="columns twelve"> <pre><code>
+import { Clock, ClockState, Clockify, Duration } from '../clockify.js';
+
+const c = new Clock();
+let clockTxt = Clockify.duration(c.state.time);
+let phaseTxt = c.state.phase.toLocaleUpperCase();
+
+c.configure({ target: Duration.of(365, 'days'), interval: Duration.of(100, 'milliseconds') });
+c.events.subscribe('started', (state:ClockState) => {
+    phaseTxt = state.phase.toLocaleUpperCase();
+});
+c.events.subscribe('paused', (state:ClockState) => {
+    phaseTxt = state.phase.toLocaleUpperCase();
+});
+c.events.subscribe('stopped', (state:ClockState) => {
+    phaseTxt = state.phase.toLocaleUpperCase();
+});
+c.events.subscribe('updated', (state:ClockState) => {
+    clockTxt = Clockify.duration(state.time, ['minutes', 'seconds', 'milliseconds']);
+});
+
+function start() {
+    c.start();
+}
+function pause() {
+    c.pause();
+}
+function stop() {
+    c.stop();
+}
+                    </code></pre> </div> </div> </div> <div id="ex3"> <h3>// countdown timer</h3> <div class="row"> <div class="columns six">This timer is configured as a countdown timer. It will count backwards from an initial time value down to zero. The target time can also be customized if you want the countdown to finish early.</div> <div class="columns six"> <div> <button @click="start()">Start</button> <button @click="pause()">Pause</button> <button @click="stop()">Stop</button> </div> <br> <h5>{{ phaseTxt }} - {{ clockTxt }}</h5> </div> </div> <div class="row"> <div class="columns twelve"> <pre><code>
+import { Clock, ClockState, Clockify, Duration } from '../clockify.js';
+
+const c = new Clock();
+let clockTxt = 'Not Started';
+let phaseTxt = c.state.phase.toLocaleUpperCase();
+
+c.configure({ mode: 'countdown', initial: Duration.of(5, 'minutes'), interval: Duration.of(100, 'milliseconds') });
+
+c.events.subscribe('started', (state:ClockState) => {
+    phaseTxt = state.phase.toLocaleUpperCase();
+    clockTxt = Clockify.duration(state.time);
+});
+c.events.subscribe('paused', (state:ClockState) => {
+    phaseTxt = state.phase.toLocaleUpperCase();
+});
+c.events.subscribe('stopped', (state:ClockState) => {
+    phaseTxt = state.phase.toLocaleUpperCase();
+});
+c.events.subscribe('finished', (state:ClockState) => {
+    phaseTxt = state.phase.toLocaleUpperCase();            
+    clockTxt = Clockify.duration(state.time);
+});
+c.events.subscribe('updated', (state:ClockState) => {
+    clockTxt = Clockify.duration(state.time);
+});
+
+function start() {
+    c.start();
+}
+function pause() {
+    c.pause();
+}
+function stop() {
+    c.stop();
+}
+
+c.start();
+                    </code></pre> </div> </div> </div> </div> </body></html>

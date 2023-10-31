@@ -21,7 +21,7 @@
     },
     "docs": {
       "source": "index.html",
-      "distDir": "docs",
+      "distDir": "docs/examples",
       "publicUrl": "./",
       "isLibrary": false,
       "context": "browser",
@@ -35,7 +35,8 @@
     "watch": "npx parcel watch",
     "serve": "npx parcel serve index.html",
     "demo": "npx parcel serve index.html --open",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "typedoc": "npx typedoc"
   },
   "dependencies": {
     "@types/node": "^20.8.7",
@@ -45,9 +46,11 @@
     "vue": "^3.3.7"
   },
   "devDependencies": {
+    "@babel/types": "^7.23.0",
     "@parcel/packager-ts": "^2.10.0",
     "@parcel/transformer-typescript-types": "^2.10.0",
-    "parcel": "^2.10.0"
+    "parcel": "^2.10.0",
+    "typedoc": "^0.25.3"
   },
   "alias": {
     "vue": "vue/dist/vue.esm-bundler.js"

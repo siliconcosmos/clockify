@@ -77,4 +77,4 @@ export class ClockEventManager implements ClockEventSubscriber, ClockEventPublis
 
 }
 
-type EventType = 'updated'|'started'|'stopped'|'finished'|'paused';
+export type EventType = 'updated'|'started'|'stopped'|'finished'|'paused';
