@@ -1,5 +1,8 @@
 {
     "$schema": "https://typedoc.org/schema.json",
+    "navigationLinks": {
+        "Examples": "/index.html"
+    },
     "entryPoints": ["./src/main/docs-root.ts"],
     "entryPointStrategy": "resolve",
     "out": "./docs/reference",
@@ -8,7 +11,7 @@
     "includeVersion": true,
     "emit": "both",
     "sourceLinkExternal": true,
-    "cname": "clockify.siliconcosmos.com",
+    "cname": "docs.clockify.siliconcosmos.com",
     "excludePrivate": true,
     "excludeReferences": false
 }
