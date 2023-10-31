@@ -1,11 +1,8 @@
 {
     "$schema": "https://typedoc.org/schema.json",
-    "navigationLinks": {
-        "Examples": "examples/index.html"
-    },
     "entryPoints": ["./src/main/clockify.ts"],
     "entryPointStrategy": "resolve",
-    "out": "docs",
+    "out": "api-reference",
     "cleanOutputDir": false,
     "sort": ["static-first", "kind", "source-order"],
     "includeVersion": true,

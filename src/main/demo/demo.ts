@@ -1,122 +1,249 @@
 import { Clock, ClockState, Clockify, Duration, DurationParams } from '../clockify.js';
-import { createApp, ref } from 'vue';
+// import { createApp, ref } from 'vue';
+import $ from 'jquery';
 
-createApp({
-    setup() {
-        const c = new Clock();
-        let clockTxt = ref(Clockify.duration(c.state.time));
-        let statusTxt = ref('Running...');
+function writeToDom(selector:string, value:any) {
+    $(selector).html(value);
+    $(selector).html(value);
+}
+function onClick(selector:string, handler:() => void) {
+    $(selector).on('click', () => handler());
+}
 
-        c.configure({ target: Duration.of(30, 'seconds'), interval: Duration.of(500, 'milliseconds') });
-        c.events.subscribe('updated', (state:ClockState) => {            
-            clockTxt.value = Clockify.duration(state.time); 
-        });
-        c.events.subscribe('finished', (state:ClockState) => {            
-            clockTxt.value = Clockify.duration(state.time);
-            statusTxt.value = "FINISHED!";
-        });
+// #region jquery
+// #region ex1
+const ex1 = function() {
+    const c = new Clock();
+    let clockTxt = 'Not Started';
+    let statusTxt = 'Running...';
+    
+    c.configure({ 
+        target: Duration.of(30, 'seconds')
+    });
+    c.events.subscribe('updated', (state:ClockState) => {            
+        clockTxt = Clockify.duration(state.time); 
+        writeToDom('#ex1 .clockTxt', clockTxt);
+    });
+    c.events.subscribe('finished', (state:ClockState) => {            
+        clockTxt = Clockify.duration(state.time);
+        statusTxt = "FINISHED!";
+        writeToDom('#ex1 .clockTxt', clockTxt);
+        writeToDom('#ex1 .statusTxt', statusTxt);
+    });
+    
+    writeToDom('#ex1 .clockTxt', clockTxt);
+    writeToDom('#ex1 .statusTxt', statusTxt);
+    c.start();
+}
+ex1();
+// #endregion
 
+// #region ex2
+
+const ex22 = function() {
+    const c = new Clock();
+    let clockTxt = Clockify.duration(c.state.time);
+    let phaseTxt = c.state.phase.toLocaleUpperCase();
+
+    c.configure({ target: Duration.of(365, 'days'), interval: Duration.of(100, 'milliseconds') });
+    c.events.subscribe('started', (state:ClockState) => {
+        phaseTxt = state.phase.toLocaleUpperCase();
+        writeToDom('#ex2 .phaseTxt', phaseTxt);
+    });
+    c.events.subscribe('paused', (state:ClockState) => {
+        phaseTxt = state.phase.toLocaleUpperCase();
+        writeToDom('#ex2 .phaseTxt', phaseTxt);
+    });
+    c.events.subscribe('stopped', (state:ClockState) => {
+        phaseTxt = state.phase.toLocaleUpperCase();
+        writeToDom('#ex2 .phaseTxt', phaseTxt);
+    });
+    c.events.subscribe('updated', (state:ClockState) => {
+        clockTxt = Clockify.duration(state.time, ['minutes', 'seconds', 'milliseconds']);
+        writeToDom('#ex2 .clockTxt', clockTxt);
+    });
+
+    function start() {
         c.start();
-    
-        return {
-            clockTxt,
-            statusTxt
-        }
     }
-}).mount('#ex1');
-
-
-createApp({
-    setup() {
-        const c = new Clock();
-        let clockTxt = ref(Clockify.duration(c.state.time));
-        let phaseTxt = ref(c.state.phase.toLocaleUpperCase());
-
-        c.configure({ target: Duration.of(365, 'days'), interval: Duration.of(100, 'milliseconds') });
-        c.events.subscribe('started', (state:ClockState) => {
-            phaseTxt.value = state.phase.toLocaleUpperCase();
-        });
-        c.events.subscribe('paused', (state:ClockState) => {
-            phaseTxt.value = state.phase.toLocaleUpperCase();
-        });
-        c.events.subscribe('stopped', (state:ClockState) => {
-            phaseTxt.value = state.phase.toLocaleUpperCase();
-        });
-        c.events.subscribe('updated', (state:ClockState) => {
-            clockTxt.value = Clockify.duration(state.time, ['minutes', 'seconds', 'milliseconds']);
-        });
-
-        function start() {
-            c.start();
-        }
-        function pause() {
-            c.pause();
-        }
-        function stop() {
-            c.stop();
-        }
-    
-        return {
-            phaseTxt, 
-            clockTxt,
-            start, 
-            stop, 
-            pause
-        }
+    function pause() {
+        c.pause();
     }
-}).mount('#ex2');
+    function stop() {
+        c.stop();
+    }
 
-createApp({
-    setup() {
-        const c = new Clock();
-        let clockTxt = ref('Not Started');
-        let phaseTxt = ref(c.state.phase.toLocaleUpperCase());
+    onClick('#ex2 .startBtn', start);
+    onClick('#ex2 .pauseBtn', pause);
+    onClick('#ex2 .stopBtn', stop);
+    writeToDom('#ex2 .clockTxt', clockTxt);
+    writeToDom('#ex2 .phaseTxt', phaseTxt);
+}
+ex22();
 
-        c.configure({ mode: 'countdown', initial: Duration.of(5, 'minutes'), interval: Duration.of(100, 'milliseconds') });
+class Ex2 {
+    c = new Clock();
+    clockTxt = Clockify.duration(this.c.state.time);
+    phaseTxt = this.c.state.phase.toLocaleUpperCase();
+
+    constructor() {
+        this.c.configure({ target: Duration.of(365, 'days'), interval: Duration.of(100, 'milliseconds') });
+        this.c.events.subscribe('started', (state:ClockState) => {
+            this.phaseTxt = state.phase.toLocaleUpperCase();
+            writeToDom('#ex2 .phaseTxt', this.phaseTxt);
+        });
+        this.c.events.subscribe('paused', (state:ClockState) => {
+            this.phaseTxt = state.phase.toLocaleUpperCase();
+            writeToDom('#ex2 .phaseTxt', this.phaseTxt);
+        });
+        this.c.events.subscribe('stopped', (state:ClockState) => {
+            this.phaseTxt = state.phase.toLocaleUpperCase();
+            writeToDom('#ex2 .phaseTxt', this.phaseTxt);
+        });
+        this.c.events.subscribe('updated', (state:ClockState) => {
+            this.clockTxt = Clockify.duration(state.time, ['minutes', 'seconds', 'milliseconds']);
+            writeToDom('#ex2 .clockTxt', this.clockTxt);
+        });
+    }
+
+    start() {
+        this.c.start();
+    }
+    pause() {
+        this.c.pause();
+    }
+    stop() {
+        this.c.stop();
+    }
+}
+// const ex2 = new Ex2();
+// onClick('#ex2 .startBtn', ex2.start);
+// onClick('#ex2 .pauseBtn', ex2.pause);
+// onClick('#ex2 .stopBtn', ex2.stop);
+
+
+// #endregion
+// #endregion
+
+
+
+// #region vue.js
+// createApp({
+//     setup() {
+//         const c = new Clock();
+//         let clockTxt = ref(Clockify.duration(c.state.time));
+//         let statusTxt = ref('Running...');
+
+//         c.configure({ target: Duration.of(30, 'seconds'), interval: Duration.of(500, 'milliseconds') });
+//         c.events.subscribe('updated', (state:ClockState) => {            
+//             clockTxt.value = Clockify.duration(state.time); 
+//         });
+//         c.events.subscribe('finished', (state:ClockState) => {            
+//             clockTxt.value = Clockify.duration(state.time);
+//             statusTxt.value = "FINISHED!";
+//         });
+
+//         c.start();
+    
+//         return {
+//             clockTxt,
+//             statusTxt
+//         }
+//     }
+// }).mount('#ex1');
+
+
+// createApp({
+//     setup() {
+//         const c = new Clock();
+//         let clockTxt = ref(Clockify.duration(c.state.time));
+//         let phaseTxt = ref(c.state.phase.toLocaleUpperCase());
+
+//         c.configure({ target: Duration.of(365, 'days'), interval: Duration.of(100, 'milliseconds') });
+//         c.events.subscribe('started', (state:ClockState) => {
+//             phaseTxt.value = state.phase.toLocaleUpperCase();
+//         });
+//         c.events.subscribe('paused', (state:ClockState) => {
+//             phaseTxt.value = state.phase.toLocaleUpperCase();
+//         });
+//         c.events.subscribe('stopped', (state:ClockState) => {
+//             phaseTxt.value = state.phase.toLocaleUpperCase();
+//         });
+//         c.events.subscribe('updated', (state:ClockState) => {
+//             clockTxt.value = Clockify.duration(state.time, ['minutes', 'seconds', 'milliseconds']);
+//         });
+
+//         function start() {
+//             c.start();
+//         }
+//         function pause() {
+//             c.pause();
+//         }
+//         function stop() {
+//             c.stop();
+//         }
+    
+//         return {
+//             phaseTxt, 
+//             clockTxt,
+//             start, 
+//             stop, 
+//             pause
+//         }
+//     }
+// }).mount('#ex2');
+
+// createApp({
+//     setup() {
+//         const c = new Clock();
+//         let clockTxt = ref('Not Started');
+//         let phaseTxt = ref(c.state.phase.toLocaleUpperCase());
+
+//         c.configure({ mode: 'countdown', initial: Duration.of(5, 'minutes'), interval: Duration.of(100, 'milliseconds') });
         
-        c.events.subscribe('started', (state:ClockState) => {
-            phaseTxt.value = state.phase.toLocaleUpperCase();
-            clockTxt.value = Clockify.duration(state.time);
-        });
-        c.events.subscribe('paused', (state:ClockState) => {
-            phaseTxt.value = state.phase.toLocaleUpperCase();
-        });
-        c.events.subscribe('stopped', (state:ClockState) => {
-            phaseTxt.value = state.phase.toLocaleUpperCase();
-        });
-        c.events.subscribe('finished', (state:ClockState) => {
-            phaseTxt.value = state.phase.toLocaleUpperCase();            
-            clockTxt.value = Clockify.duration(state.time);
-        });
-        c.events.subscribe('updated', (state:ClockState) => {
-            clockTxt.value = Clockify.duration(state.time);
-        });
+//         c.events.subscribe('started', (state:ClockState) => {
+//             phaseTxt.value = state.phase.toLocaleUpperCase();
+//             clockTxt.value = Clockify.duration(state.time);
+//         });
+//         c.events.subscribe('paused', (state:ClockState) => {
+//             phaseTxt.value = state.phase.toLocaleUpperCase();
+//         });
+//         c.events.subscribe('stopped', (state:ClockState) => {
+//             phaseTxt.value = state.phase.toLocaleUpperCase();
+//         });
+//         c.events.subscribe('finished', (state:ClockState) => {
+//             phaseTxt.value = state.phase.toLocaleUpperCase();            
+//             clockTxt.value = Clockify.duration(state.time);
+//         });
+//         c.events.subscribe('updated', (state:ClockState) => {
+//             clockTxt.value = Clockify.duration(state.time);
+//         });
 
-        function start() {
-            c.start();
-        }
-        function pause() {
-            c.pause();
-        }
-        function stop() {
-            c.stop();
-        }
+//         function start() {
+//             c.start();
+//         }
+//         function pause() {
+//             c.pause();
+//         }
+//         function stop() {
+//             c.stop();
+//         }
 
-        c.start();
+//         c.start();
     
-        return {
-            phaseTxt, 
-            clockTxt,
-            start, 
-            stop, 
-            pause
-        }
-    }
-}).mount('#ex3')
+//         return {
+//             phaseTxt, 
+//             clockTxt,
+//             start, 
+//             stop, 
+//             pause
+//         }
+//     }
+// }).mount('#ex3')
+// #endregion
 
 
-
-
+// #region junk
 // const testdur1 = Duration.of(123456789876, 'milliseconds');
 // console.log(testdur1.asValues());
 // console.log(Clockify.duration(testdur1));
@@ -222,5 +349,6 @@ createApp({
 
 
 // console.log("hello world");
+// #endregion
 
 export { };

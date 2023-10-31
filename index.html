@@ -29,7 +29,10 @@
 
         <h1>// clockify timer</h1>
 
-        <p>WIP</p>
+        <p>
+            WIP 
+            <!-- <a href="/api-reference/index.html">API Reference</a> -->
+        </p>
 
         <div id="ex1">
             <h3>// basic timer</h3>
@@ -39,10 +42,10 @@
                     This stopwatch will run for 30 seconds.
                 </div>
                 <div class="three columns">
-                    <h5>{{ statusTxt }}</h5>
+                    <h5 class="statusTxt">{{ statusTxt }}</h5>
                 </div>
                 <div class="three columns">
-                    <h5>{{ clockTxt }}</h5>
+                    <h5 class="clockTxt">{{ clockTxt }}</h5>
                 </div>
             </div>
             <div class="row">
@@ -78,12 +81,12 @@ c.start();
                 <div class="six columns">This timer has the start(), stop(), and pause() methods tied to button click events.</div>
                 <div class="six columns">
                     <div>
-                        <button @click="start()">Start</button>
-                        <button @click="pause()">Pause</button>
-                        <button @click="stop()">Stop</button>
+                        <button class="startBtn" @click="start()">Start</button>
+                        <button class="pauseBtn" @click="pause()">Pause</button>
+                        <button class="stopBtn" @click="stop()">Stop</button>
                     </div>
                     <br>
-                    <h5>{{ phaseTxt }} - {{ clockTxt }}</h5>
+                    <h5><span class="phaseTxt">{{ phaseTxt }}</span> - <span class="clockTxt">{{ clockTxt }}</span></h5>
                 </div>
             </div>
 
