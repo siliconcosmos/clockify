@@ -1,4 +1,4 @@
-import { Clock, ClockState, Clockify, Duration } from '../clockify.js';
+import { Clock, ClockState, Clockify, Duration } from '../moondial.js';
 import $ from 'jquery';
 
 function writeToDom(selector:string, value:any) {

@@ -1,11 +1,11 @@
 {
-  "name": "clockify",
+  "name": "moondial",
   "version": "1.0.0",
   "description": "A tiny stopwatch, chronometer, and countdown timer library with millisecond precision built in TypeScript",
-  "source": "src/main/clockify.ts",
-  "types": "dist/clockify.d.ts",
-  "lib": "dist/clockify.js",
-  "min": "dist/clockify.min.js",
+  "source": "src/main/moondial.ts",
+  "types": "dist/moondial.d.ts",
+  "lib": "dist/moondial.js",
+  "min": "dist/moondial.min.js",
   "targets": {
     "lib": {
       "isLibrary": true,

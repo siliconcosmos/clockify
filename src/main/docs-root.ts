@@ -1,2 +1,2 @@
 export { ClockEventSubscriber, EventType } from "./event-manager.js";
-export * from './clockify.js';
+export * from './moondial.js';
