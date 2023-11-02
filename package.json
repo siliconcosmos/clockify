@@ -1,13 +1,14 @@
 {
   "name": "moondial",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A tiny stopwatch, chronometer, and countdown timer library with millisecond precision built in TypeScript",
   "source": "src/main/moondial.ts",
   "types": "dist/moondial.d.ts",
-  "lib": "dist/moondial.js",
+  "main": "dist/moondial.js", 
+  "module": "dist/moondial.module.js",
   "min": "dist/moondial.min.js",
   "targets": {
-    "lib": {
+    "module": {
       "isLibrary": true,
       "context": "node",
       "outputFormat": "esmodule",
@@ -59,10 +60,12 @@
   },
   "keywords": [
     "timer",
-    "clock",
     "countdown",
     "stopwatch",
-    "duration"
+    "clock",
+    "chronometer",
+    "duration",
+    "count-down"
   ],
   "author": "Silicon Cosmos",
   "license": "MPL-2.0",

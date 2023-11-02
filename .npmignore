@@ -1,0 +1,12 @@
+.parcel-cache
+
+docs
+typedoc.json
+
+src/main/demo
+src/main/docs-root.ts
+src/test
+index.html
+
+dist/main
+dist/test
