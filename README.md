@@ -1,7 +1,7 @@
 # Moondial Timer
 A tiny stopwatch, chronometer, and countdown timer library with millisecond precision built in TypeScript. Support for state change events implemented via RxJs. Use it in the browser or NodeJs.
 
-See the docs for live examples of the library in action: http://clockify.siliconcosmos.com
+See the docs for live examples of the library in action: http://moondial.siliconcosmos.com
 
 ## Project Setup
 Build the project:
@@ -22,11 +22,11 @@ This demo is equivalent to the live demo in the docs.
 ### Import the Library
 ES Modules:
 ``` typescript
-import { Clock, Duration } from "clockify.js";
+import { Clock, Duration } from "moondial.js";
 ```
 Require statement:
 ``` typescript
-var { Clock, Duration } = require("clockify.js");
+var { Clock, Duration } = require("moondial.js");
 ```
 
 ### Quickstart Example
@@ -76,7 +76,7 @@ cState.time.as('milliseconds'); // e.g. 9845
 ```
 OR convert the time to a nice clock style string
 ```typescript
-import { Clockify } from "clockify.js";
+import { Clockify } from "moondial.js";
 
 Clockify.duration(cState.time, ['hours', 'minutes', 'seconds']);
 // Which returns:
@@ -100,4 +100,4 @@ c.events.subscribe('updated', (state:ClockState) => {
 
 The library also contains typescript definitions with doc comments for editors which support hinting. 
 
-See the docs for more examples and API details: http://clockify.siliconcosmos.com
+See the docs for more examples and API details: http://moondial.siliconcosmos.com
