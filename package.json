@@ -1,6 +1,6 @@
 {
   "name": "moondial",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A tiny stopwatch, chronometer, and countdown timer library with millisecond precision built in TypeScript",
   "source": "src/main/moondial.ts",
   "types": "dist/moondial.d.ts",
@@ -69,5 +69,5 @@
   "bugs": {
     "url": "https://github.com/siliconcosmos/moondial/issues"
   },
-  "homepage": "https://github.com/siliconcosmos/moondial#readme"
+  "homepage": "https://moondial.siliconcosmos.com"
 }
