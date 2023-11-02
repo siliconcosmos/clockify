@@ -59,7 +59,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/siliconcosmos/clockify.git"
+    "url": "git+https://github.com/siliconcosmos/moondial.git"
   },
   "keywords": [
     "timer",
@@ -71,7 +71,7 @@
   "author": "Silicon Cosmos",
   "license": "MPL-2.0",
   "bugs": {
-    "url": "https://github.com/siliconcosmos/clockify/issues"
+    "url": "https://github.com/siliconcosmos/moondial/issues"
   },
-  "homepage": "https://github.com/siliconcosmos/clockify#readme"
+  "homepage": "https://github.com/siliconcosmos/moondial#readme"
 }
