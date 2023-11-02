@@ -1,6 +1,6 @@
 {
   "name": "moondial",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "A tiny stopwatch, chronometer, and countdown timer library with millisecond precision built in TypeScript",
   "source": "src/main/moondial.ts",
   "types": "dist/moondial.d.ts",
@@ -39,23 +39,19 @@
     "typedoc": "npx typedoc"
   },
   "dependencies": {
-    "@types/node": "^20.8.7",
-    "jquery": "^3.7.1",
     "rxjs": "^7.8.1",
     "tslib": "^2.6.2",
-    "typescript": "^5.2.2",
-    "vue": "^3.3.7"
+    "typescript": "^5.2.2"
   },
   "devDependencies": {
     "@babel/types": "^7.23.0",
     "@parcel/packager-ts": "^2.10.0",
     "@parcel/transformer-typescript-types": "^2.10.0",
+    "@types/node": "^20.8.7",
     "@types/jquery": "^3.5.25",
+    "jquery": "^3.7.1",
     "parcel": "^2.10.0",
     "typedoc": "^0.25.3"
-  },
-  "alias": {
-    "vue": "vue/dist/vue.esm-bundler.js"
   },
   "repository": {
     "type": "git",
