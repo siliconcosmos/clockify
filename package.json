@@ -35,7 +35,7 @@
     "watch": "npx parcel watch",
     "serve": "npx parcel serve index.html",
     "demo": "npx parcel serve index.html --open",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"Warn: no test specified\" && exit 0",
     "typedoc": "npx typedoc"
   },
   "dependencies": {
