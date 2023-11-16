@@ -19,6 +19,10 @@ This demo is equivalent to the live demo in the docs.
 
 
 ## Usage
+### Install the Library
+```
+> npm install moondial
+```
 ### Import the Library
 ES Modules:
 ``` typescript
@@ -86,8 +90,10 @@ The units are not mandatory and would default to `['minutes', 'seconds']`. We ca
 ```typescript
 // all Duration params are optional
 Clockify.durationParams({ days: 1, hours: 3, minutes: 30, seconds: 10, milliseconds: 0 });
-Clockify.seconds(280, [['minutes', 'seconds'], ';']); // optional separator character results in - 04;40
-Clockify.milliseconds(10000); // 00:10
+// optional separator character results in - 04;40
+Clockify.seconds(280, [['minutes', 'seconds'], ';']);
+// 00:10
+Clockify.milliseconds(10000);
 ```
 OR we could subscribe to clock updated events and do any of these things in the callback.
 ```typescript
