@@ -1,4 +1,4 @@
-import { Duration } from "./duration.js";
+import { Duration, DurationParams } from "./duration.js";
 import { ClockEventManager, ClockEventSubscriber } from "./event-manager.js";
 
 export class Clock {
@@ -27,7 +27,7 @@ export class Clock {
     constructor(configuration?:ClockParams) {
         this.intervalId = undefined;
         this.configure(configuration ?? {});
-        this.eventManager = new ClockEventManager();         
+        this.eventManager = new ClockEventManager();
     }
 
     /**
@@ -141,22 +141,33 @@ export class Clock {
 
     private paramsToConfig(params:ClockParams): ClockConfig {
         let config: ClockConfig = { ...DEFAULT_CONFIG };
+
         if (params.mode) {
             config.mode = params.mode;
         }
         if (params.interval) {
-            config.interval = params.interval;
+            config.interval = this.deriveDuration(params.interval);
         }
         if (params.initial) {
-            config.initial = params.initial;
+            config.initial = this.deriveDuration(params.initial);
         }
         if (params.target) {
-            config.target = params.target;
+            config.target = this.deriveDuration(params.target);
         } else if (config.mode === 'stopwatch') {
             config.target = Duration.of(Number.MAX_SAFE_INTEGER, 'milliseconds');
         }
 
         return config;
+    }
+
+    private deriveDuration(val:Duration | DurationParams | number):Duration {
+        if (typeof val === 'number') {
+            return new Duration({ milliseconds: val });
+        } else if (val instanceof Duration) {
+            return val;
+        } else {
+            return new Duration(val);
+        }
     }
 }
 
@@ -171,24 +182,35 @@ export type ClockParams = {
     mode?: ClockMode;
     /**
      * The frequency of the update loop. Defaults to 500ms. Values of zero or less will cause updates as fast as possible (not recommended).
+     * 
+     * A number value will be treated as milliseconds.
      */
-    interval?: Duration;
+    interval?: Duration | DurationParams | number;
     /**
      * The target value for the clock. This is where counting will finish. Default: 0s
+     * 
+     * A number value will be treated as milliseconds.
      */
-    target?: Duration;
+    target?: Duration | DurationParams | number;
     /**
      * The initial value on the clock. This is where counting will start from. Default: 0s
+     * 
+     * A number value will be treated as milliseconds.
      */
-    initial?: Duration;
+    initial?: Duration | DurationParams | number;
 }
 
-type ClockConfig = Required<ClockParams>;
+export type ClockConfig = {
+    mode: ClockMode;
+    interval: Duration;
+    target: Duration;
+    initial: Duration;
+}
 const DEFAULT_CONFIG: ClockConfig = {
     mode: 'stopwatch',
     interval: Duration.of(500, 'milliseconds'),
-    target: Duration.parse("0 seconds"),
-    initial: Duration.parse("0 seconds")
+    target: Duration.of(0, "seconds"),
+    initial: Duration.of(0, "seconds")
 }
 
 export type ClockPhase = 'initialized'|'running'|'stopped'|'paused'|'finished';
