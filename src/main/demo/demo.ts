@@ -39,11 +39,11 @@ ex1();
 
 // #region ex2
 const ex2 = function() {
-    const c = new Clock();
+    const c = new Clock({ interval: Duration.of(100, 'milliseconds') });
     let clockTxt = Clockify.duration(c.state.time, ['minutes', 'seconds', 'milliseconds']);
     let phaseTxt = c.state.phase.toLocaleUpperCase();
 
-    c.configure({ target: Duration.of(365, 'days'), interval: Duration.of(100, 'milliseconds') });
+    // c.configure({ target: Duration.of(365, 'days'), interval: Duration.of(100, 'milliseconds') });
     c.events.subscribe('started', (state:ClockState) => {
         phaseTxt = state.phase.toLocaleUpperCase();
         writeToDom('#ex2 .phaseTxt', phaseTxt);

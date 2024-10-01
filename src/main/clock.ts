@@ -26,7 +26,7 @@ export class Clock {
      */
     constructor(configuration?:ClockParams) {
         this.intervalId = undefined;
-        this.configure({ ...DEFAULT_CONFIG, ...configuration });
+        this.configure(configuration ?? {});
         this.eventManager = new ClockEventManager();         
     }
 
@@ -38,7 +38,7 @@ export class Clock {
         if (this.isInLivePhase()) {
             throw new Error(`Cannot configure a clock that is ${this.phase}.`);
         }
-        this.config = { ...DEFAULT_CONFIG, ...configuration };
+        this.config = this.paramsToConfig(configuration);
         this.directionMultiplier = (this.config.mode === 'countdown') ? -1 : 1;
         this.resetState();
     }
@@ -137,6 +137,26 @@ export class Clock {
     private setState(state:ClockState) {
         this.phase = state.phase;
         this.currentTime = state.time;
+    }
+
+    private paramsToConfig(params:ClockParams): ClockConfig {
+        let config: ClockConfig = { ...DEFAULT_CONFIG };
+        if (params.mode) {
+            config.mode = params.mode;
+        }
+        if (params.interval) {
+            config.interval = params.interval;
+        }
+        if (params.initial) {
+            config.initial = params.initial;
+        }
+        if (params.target) {
+            config.target = params.target;
+        } else if (config.mode === 'stopwatch') {
+            config.target = Duration.of(Number.MAX_SAFE_INTEGER, 'milliseconds');
+        }
+
+        return config;
     }
 }
 
