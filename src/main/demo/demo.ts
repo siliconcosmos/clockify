@@ -12,13 +12,10 @@ function onClick(selector:string, handler:() => void) {
 // #region jquery
 // #region ex1
 const ex1 = function() {
-    const c = new Clock();
+    const c = new Clock({ target: Duration.of(30, 'seconds') });
     let clockTxt = 'Not Started';
     let statusTxt = 'Running...';
     
-    c.configure({ 
-        target: Duration.of(30, 'seconds')
-    });
     c.events.subscribe('updated', (state:ClockState) => {            
         clockTxt = Clockify.duration(state.time); 
         writeToDom('#ex1 .clockTxt', clockTxt);
@@ -39,11 +36,12 @@ ex1();
 
 // #region ex2
 const ex2 = function() {
-    const c = new Clock({ interval: Duration.of(100, 'milliseconds') });
+    const c = new Clock(); 
     let clockTxt = Clockify.duration(c.state.time, ['minutes', 'seconds', 'milliseconds']);
     let phaseTxt = c.state.phase.toLocaleUpperCase();
 
-    // c.configure({ target: Duration.of(365, 'days'), interval: Duration.of(100, 'milliseconds') });
+    // we can also configure the clock after it is constructed
+    c.configure({ interval: 100 }); // milliseconds
     c.events.subscribe('started', (state:ClockState) => {
         phaseTxt = state.phase.toLocaleUpperCase();
         writeToDom('#ex2 .phaseTxt', phaseTxt);
@@ -86,7 +84,7 @@ const ex3 = function() {
     let clockTxt = 'Not Started';
     let phaseTxt = c.state.phase.toLocaleUpperCase();
 
-    c.configure({ mode: 'countdown', initial: Duration.of(5, 'minutes'), interval: Duration.of(100, 'milliseconds') });
+    c.configure({ mode: 'countdown', initial: { minutes: 5 }, interval: 100 });
 
     c.events.subscribe('started', (state:ClockState) => {
         phaseTxt = state.phase.toLocaleUpperCase();
