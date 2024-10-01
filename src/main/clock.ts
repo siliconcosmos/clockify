@@ -153,49 +153,57 @@ export class Clock {
         }
         if (params.target) {
             config.target = this.deriveDuration(params.target);
-        } else if (config.mode === 'stopwatch') {
-            config.target = Duration.of(Number.MAX_SAFE_INTEGER, 'milliseconds');
+        } else if (config.mode === 'countdown') {
+            config.target = new Duration({ milliseconds: 0 });
         }
 
         return config;
     }
 
-    private deriveDuration(val:Duration | DurationParams | number):Duration {
-        if (typeof val === 'number') {
-            return new Duration({ milliseconds: val });
-        } else if (val instanceof Duration) {
-            return val;
+    private deriveDuration(value:Duration | DurationParams | number):Duration {
+        if (typeof value === 'number') {
+            return new Duration({ milliseconds: value });
+        } else if (value instanceof Duration) {
+            return value;
         } else {
-            return new Duration(val);
+            return new Duration(value);
         }
     }
 }
 
 export type ClockParams = {
     /**
-     * The mode the clock should run in. Defaults to 'stopwatch'.
+     * The mode the clock should run in. 
      * 
      * 'stopwatch' - clock will count forwards through time. If initial is greater than target, the clock will stop instantly.
      * 
      * 'countdown' - clock will count backwards through time. If initial is less than target, the clock will stop instantly. 
+     * 
+     * Default: 'stopwatch'
      */
     mode?: ClockMode;
     /**
-     * The frequency of the update loop. Defaults to 500ms. Values of zero or less will cause updates as fast as possible (not recommended).
+     * The frequency of the update loop. Values of zero or less will cause updates as fast as possible (not recommended).
      * 
      * A number value will be treated as milliseconds.
+     * 
+     * Default: 500ms
      */
     interval?: Duration | DurationParams | number;
     /**
-     * The target value for the clock. This is where counting will finish. Default: 0s
+     * The target value for the clock. This is where counting will finish. 
      * 
      * A number value will be treated as milliseconds.
+     * 
+     * Default: 0s in countdown mode OR MAX_SAFE_INTERGER millis in stopwatch mode
      */
     target?: Duration | DurationParams | number;
     /**
-     * The initial value on the clock. This is where counting will start from. Default: 0s
+     * The initial value on the clock. This is where counting will start from. 
      * 
      * A number value will be treated as milliseconds.
+     * 
+     * Default: 0s
      */
     initial?: Duration | DurationParams | number;
 }
@@ -209,7 +217,7 @@ export type ClockConfig = {
 const DEFAULT_CONFIG: ClockConfig = {
     mode: 'stopwatch',
     interval: Duration.of(500, 'milliseconds'),
-    target: Duration.of(0, "seconds"),
+    target: Duration.of(Number.MAX_SAFE_INTEGER, "milliseconds"),
     initial: Duration.of(0, "seconds")
 }
 
