@@ -11,7 +11,7 @@ export interface ClockEventSubscriber {
     subscribe(type:EventType, subscriber:(value:any) => void):Subscription;
 
     /**
-     * Unsubscribe all currently bound subscribers and reinitialized the event subscriber
+     * Unsubscribe all currently bound subscribers and reinitialize the event subscriber
      */
     unsubscribeAll():void;
 }
