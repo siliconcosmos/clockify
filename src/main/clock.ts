@@ -26,7 +26,11 @@ export class Clock {
      */
     constructor(configuration?:ClockParams) {
         this.intervalId = undefined;
-        this.configure(configuration ?? {});
+        if (configuration) {
+            this.configure(configuration);
+        } else {
+            this.config = { ...DEFAULT_CONFIG };
+        }
         this.eventManager = new ClockEventManager();
     }
 
