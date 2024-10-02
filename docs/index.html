@@ -1,13 +1,10 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>moondial timer</title><link rel="stylesheet" href="index.3cac95b7.css"><link rel="stylesheet" href="index.8fde8fad.css"><style>button{margin:0 2.5px}code{font-size:medium;overflow-x:auto}</style></head><body> <div class="container"> <script src="index.28eb7aa2.js" type="module"></script> <div> <div style="float:right;margin-top:15px"> <a class="button button-primary" href="https://github.com/siliconcosmos/moondial">Github</a> <a class="button button-primary" href="./reference/">API Reference</a> </div> <h1>// moondial timer</h1> </div> <p> Moondial is a tiny stopwatch, chronometer, and countdown timer library with support for millisecond precision built in TypeScript. Through RxJs, moondial provides high precision event-based clocks with a simple API. </p> <p> This page contains a few small live examples. See the API reference for a deeper look at the functionality of the library. </p> <div id="ex1"> <h3>// basic timer</h3> <div class="row"> <div class="columns six"> This stopwatch will run for 30 seconds. </div> <div class="columns three"> <h5 class="statusTxt">{{ statusTxt }}</h5> </div> <div class="columns three"> <h5 class="clockTxt">{{ clockTxt }}</h5> </div> </div> <div class="row"> <div class="columns twelve"> <pre><code>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>moondial timer</title><link rel="stylesheet" href="index.3cac95b7.css"><link rel="stylesheet" href="index.8fde8fad.css"><style>button{margin:0 2.5px}code{font-size:medium;overflow-x:auto}</style></head><body> <div class="container"> <script src="index.26a903b7.js" type="module"></script> <div> <div style="float:right;margin-top:15px"> <a class="button button-primary" href="https://github.com/siliconcosmos/moondial">Github</a> <a class="button button-primary" href="./reference/">API Reference</a> </div> <h1>// moondial timer</h1> </div> <p> Moondial is a tiny stopwatch, chronometer, and countdown timer library with support for millisecond precision built in TypeScript. Through RxJs, moondial provides high precision event-based clocks with a simple API. </p> <p> This page contains a few small live examples. See the API reference for a deeper look at the functionality of the library. </p> <div id="ex1"> <h3>// basic timer</h3> <div class="row"> <div class="columns six"> This stopwatch will run for 30 seconds. </div> <div class="columns three"> <h5 class="statusTxt">{{ statusTxt }}</h5> </div> <div class="columns three"> <h5 class="clockTxt">{{ clockTxt }}</h5> </div> </div> <div class="row"> <div class="columns twelve"> <pre><code>
 import { Clock, ClockState, Clockify, Duration } from '../clockify.js';
 
-const c = new Clock();
+const c = new Clock({ target: Duration.of(30, 'seconds') });
 let clockTxt = 'Not Started';
 let statusTxt = 'Running...';
 
-c.configure({ 
-    target: Duration.of(30, 'seconds')
-});
 c.events.subscribe('updated', (state:ClockState) => {            
     clockTxt = Clockify.duration(state.time); 
 });
@@ -24,7 +21,8 @@ const c = new Clock();
 let clockTxt = Clockify.duration(c.state.time, ['minutes', 'seconds', 'milliseconds']);
 let phaseTxt = c.state.phase.toLocaleUpperCase();
 
-c.configure({ target: Duration.of(365, 'days'), interval: Duration.of(100, 'milliseconds') });
+// we can also configure the clock after it is constructed
+c.configure({ interval: 100 }); // 100 milliseconds
 c.events.subscribe('started', (state:ClockState) => {
     phaseTxt = state.phase.toLocaleUpperCase();
 });
@@ -54,7 +52,7 @@ const c = new Clock();
 let clockTxt = 'Not Started';
 let phaseTxt = c.state.phase.toLocaleUpperCase();
 
-c.configure({ mode: 'countdown', initial: Duration.of(5, 'minutes'), interval: Duration.of(100, 'milliseconds') });
+c.configure({ mode: 'countdown', initial: { minutes: 5 }, interval: 100 });
 
 c.events.subscribe('started', (state:ClockState) => {
     phaseTxt = state.phase.toLocaleUpperCase();
