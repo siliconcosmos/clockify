@@ -1,4 +1,4 @@
-import { Duration, DurationParams } from "./duration.js";
+import { Duration, DurationParams, isDurationParams } from "./duration.js";
 import { ClockEventManager, ClockEventSubscriber } from "./event-manager.js";
 
 export class Clock {
@@ -167,10 +167,10 @@ export class Clock {
     private deriveDuration(value:Duration | DurationParams | number):Duration {
         if (typeof value === 'number') {
             return new Duration({ milliseconds: value });
-        } else if (value instanceof Duration) {
-            return value;
-        } else {
+        } else if (isDurationParams(value)) {
             return new Duration(value);
+        } else {
+            return value;
         }
     }
 }

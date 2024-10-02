@@ -19,7 +19,20 @@ export class Duration {
      * @param params See DurationValues type for valid fields. All fields optional.
      */
     constructor(params:DurationParams) {
+        if (!isDurationParams(params)) {
+            throw new Error(`Invalid DurationParams: ${JSON.stringify(params)}`);
+        } 
         this.valueInMillis = this.flattenParamsToMillis(params);
+    }
+
+    public static isDuration(ob: any): ob is Duration {
+        return (ob as Duration).valueInMillis !== undefined &&
+            (ob as Duration).as !== undefined &&
+            (ob as Duration).asTotals !== undefined &&
+            (ob as Duration).asValues !== undefined &&
+            (ob as Duration).in !== undefined &&
+            (ob as Duration).greaterThan !== undefined &&
+            (ob as Duration).lessThan !== undefined;
     }
     
     /**
@@ -197,5 +210,12 @@ export type DurationValues = {
     milliseconds: number
 }
 export type DurationParams = Partial<DurationValues>;
+export function isDurationParams(ob: any): ob is DurationParams {
+    return (ob as DurationParams).days !== undefined || 
+        (ob as DurationParams).hours !== undefined || 
+        (ob as DurationParams).minutes !== undefined || 
+        (ob as DurationParams).seconds !== undefined || 
+        (ob as DurationParams).milliseconds !== undefined;
+}
 
 type DurationTotals = Readonly<DurationValues>;
